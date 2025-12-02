@@ -1,8 +1,12 @@
 "use client";
 
-import { AnimatePresence } from "motion/react";
-import { useCallback, useState } from "react";
+import { AmountOfCoffee } from "@/components/AmountOfCoffee";
+import { FavCafe } from "@/components/FavCafe";
 import { Welcome } from "@/components/Welcome";
+import { AnimatePresence, motion } from "motion/react";
+import { useCallback, useState } from "react";
+import WrappedContext from "./context";
+import { WrappedData } from "./types";
 
 enum States {
 	WELCOME = 0,
@@ -16,7 +20,7 @@ enum States {
 	END = 8
 }
 
-export const Wrapped = ({ data }: { data: unknown }) => {
+export const Wrapped = ({ data }: { data: WrappedData }) => {
 	const [state, setState] = useState<States>(States.WELCOME);
 
 	const nextState = useCallback(() => {
@@ -36,15 +40,24 @@ export const Wrapped = ({ data }: { data: unknown }) => {
 			case States.WELCOME:
 				return <Welcome key={"welcome"} />;
 			case States.AMOUNT_OF_COFFEE:
-				return <p key="amount_of_coffee">AMOUNT_OF_COFFEE</p>;
+				return <AmountOfCoffee key="amount" />;
 			case States.MOST_PURCHASES:
 				return <p>MOST_PURCHASES</p>;
 			case States.BEST_PLACEMENT:
 				return <p>BEST_PLACEMENT</p>;
 			case States.LONGEST_STREAK:
-				return <p>LONGEST_STREAK</p>;
+				return (
+					<motion.p
+						exit={{ opacity: 1 }}
+						transition={{ duration: 5 }}
+						className="h-full w-full bg-white"
+						key="wower"
+					>
+						LONGEST_STREAK
+					</motion.p>
+				);
 			case States.FAVORITE_CAFE:
-				return <p>FAVORITE_CAFE</p>;
+				return <FavCafe key="fav" />;
 			case States.SHORTEST_DELTA:
 				return <p>SHORTEST_DELTA</p>;
 			case States.WEEKLY_AVERAGE:
@@ -57,12 +70,25 @@ export const Wrapped = ({ data }: { data: unknown }) => {
 	};
 
 	return (
-		<div className="relative">
-			<AnimatePresence>{renderComponent()}</AnimatePresence>
-			<div className="absolute bottom-0">
-				<button onClick={prevState}>Prev</button>
-				<button onClick={nextState}>Next</button>
+		<WrappedContext.Provider value={data}>
+			<div className="relative h-screen w-screen">
+				<AnimatePresence>{renderComponent()}</AnimatePresence>
+
+				<div className="absolute right-0 bottom-0 left-0 z-10 flex items-center justify-center gap-2">
+					<button
+						onClick={prevState}
+						className="m-4 bg-black px-4 py-2"
+					>
+						Prev
+					</button>
+					<button
+						onClick={nextState}
+						className="m-4 bg-black px-4 py-2"
+					>
+						Next
+					</button>
+				</div>
 			</div>
-		</div>
+		</WrappedContext.Provider>
 	);
 };
