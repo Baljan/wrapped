@@ -2,7 +2,16 @@ import { loadWrappedData } from "./actions";
 import { Wrapped } from "./wrapped";
 
 const Home = async () => {
-	const data = await loadWrappedData();
+	const { success, data } = await loadWrappedData();
+
+	if (!success) {
+		return (
+			<div>
+				<h1>Inge wrapped för dig manneeeen</h1>
+				<p>Fan skulle blippat lite mer typ</p>
+			</div>
+		);
+	}
 
 	return (
 		<>

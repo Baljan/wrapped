@@ -5,19 +5,23 @@ import data from "../_data.json";
 
 export const loadWrappedData = async () => {
 	// This will obv be removed in favor of some verison of the request below
-	return data;
+	return { success: true, data };
 
 	const cookieStore = await cookies();
 
-	const resp = await axios.get("http://localhost:8000/wrapped", {
-		// Horrible solution but we ball
-		headers: {
-			Cookie: cookieStore
-				.getAll()
-				.map((c) => `${c.name}=${c.value}`)
-				.join("; ")
-		}
-	});
-
-	return resp.data;
+	try {
+		const resp = await axios.get("http://localhost:8000/wrapped", {
+			// Horrible solution but we ball
+			headers: {
+				Cookie: cookieStore
+					.getAll()
+					.map((c) => `${c.name}=${c.value}`)
+					.join("; ")
+			}
+		});
+		return { success: true, data: resp.data };
+	} catch (err) {
+		// Maybe we should handle specific errors, like 400, 401, but i think 400 is the only possible error tho
+		return { success: false, data: {} };
+	}
 };
