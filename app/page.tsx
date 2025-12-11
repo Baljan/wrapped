@@ -13,14 +13,7 @@ const Home = async () => {
 		);
 	}
 
-	return (
-		<>
-			<Wrapped data={data} />
-			<pre>
-				<code>{JSON.stringify(data, null, 4)}</code>
-			</pre>
-		</>
-	);
+	return <Wrapped data={data} />;
 };
 
 export default Home;

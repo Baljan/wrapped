@@ -22,6 +22,14 @@ const nextConfig: NextConfig = {
 				statusCode: 307
 			}
 		];
+	},
+	turbopack: {
+		rules: {
+			"*.svg": {
+				loaders: ["@svgr/webpack"],
+				as: "*.js"
+			}
+		}
 	}
 };
 

@@ -1,6 +1,6 @@
 "use client";
 
-import { createContext, useContext } from "react";
+import { createContext, ReactNode, useContext } from "react";
 import { WrappedData } from "./types";
 
 export type WrappedContextSchema = WrappedData;
@@ -35,5 +35,25 @@ const WrappedContext = createContext<WrappedContextSchema>({
 });
 
 export const useWrappedContext = () => useContext(WrappedContext);
+
+export const WrappedProvider = ({
+	children,
+	data
+}: {
+	children: ReactNode;
+	data: WrappedData;
+}) => {
+	return (
+		<WrappedContext.Provider value={data}>
+			{children}
+
+			{process.env.NODE_ENV !== "production" && (
+				<pre>
+					<code>{JSON.stringify(data, null, 4)}</code>
+				</pre>
+			)}
+		</WrappedContext.Provider>
+	);
+};
 
 export default WrappedContext;
