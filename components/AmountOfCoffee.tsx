@@ -1,7 +1,7 @@
 "use client";
 
 import { useWrappedContext } from "@/app/context";
-import CoffeePour from "@/public/coffee-pour.svg";
+import CoffeePour2 from "@/public/coffee-pour-2.svg";
 import { motion } from "motion/react";
 import { Element } from "react-scroll";
 import { Standout } from "./Standout";
@@ -33,7 +33,7 @@ export const AmountOfCoffee = () => {
 
 	return (
 		<>
-			<CoffeePour
+			<CoffeePour2
 				name="coffee_pour"
 				key="coffee_pour"
 				className="mx-auto h-fit w-96 max-w-full fill-yellow-950"

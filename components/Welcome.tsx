@@ -14,20 +14,30 @@ export const Welcome = () => {
 				animate={{ opacity: 1 }}
 			>
 				<div className="w-fit">
-					<h1 className="font-title px-4 pt-8 text-center text-7xl text-white text-shadow-lg md:text-9xl xl:text-[12rem]">
+					<h1 className="font-title px-4 pt-36 text-center text-7xl text-white text-shadow-lg md:text-9xl xl:pt-32 xl:text-[12rem]">
 						Blippen Wrapped
 					</h1>
 				</div>
 				{!isMobile ? (
-					<motion.p
-						initial={{ opacity: 0 }}
-						animate={{ opacity: 1 }}
-						transition={{ delay: 1 }}
-						className="mt-16 font-sans text-3xl text-white"
-					>
-						Du tar dig vidare genom att klicka på{" "}
-						<Standout>mellanslag</Standout>.
-					</motion.p>
+					<>
+						<motion.h2
+							initial={{ opacity: 0 }}
+							animate={{ opacity: 1 }}
+							transition={{ delay: 0.5 }}
+							className="mt-4 px-4 pt-4 text-center font-bold text-3xl text-white text-shadow-lg xl:pt-8 xl:text-3xl"
+						>
+							Dina blipps för HT25 sammanfattade
+						</motion.h2>
+						<motion.p
+							initial={{ opacity: 0 }}
+							animate={{ opacity: 1 }}
+							transition={{ delay: 1.5 }}
+							className="mt-32 font-sans text-3xl text-white"
+						>
+							Du tar dig vidare genom att klicka på{" "}
+							<Standout>mellanslag</Standout>.
+						</motion.p>
+					</>
 				) : (
 					<p className="mt-4 text-center font-sans text-2xl text-white">
 						Den här sidan funkar inte på telefoner, snälla gå in på

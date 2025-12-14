@@ -48,7 +48,7 @@ export const FavCafe = () => {
 						"#versus",
 						{
 							opacity: 1,
-							fontSize: "16rem"
+							fontSize: "12vh"
 						},
 						{ duration: 0.4, ease: slamEasing, at: "-0.4" }
 					],
