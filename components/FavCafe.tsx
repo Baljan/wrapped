@@ -134,7 +134,6 @@ export const FavCafe = () => {
 
 	useEffect(() => {
 		const initialAnimations = async () => {
-			console.log(step, isInView);
 			if (isInView) {
 				const seq = steps[step];
 
@@ -158,7 +157,7 @@ export const FavCafe = () => {
 			<div className="h-24 w-full"></div>
 			<Element
 				name="favorite_cafe"
-				className="sticky top-0 h-screen w-screen"
+				className="sticky top-0 h-screen w-screen overflow-hidden"
 			>
 				<div className="relative h-full w-full scale-115" ref={scope}>
 					<div
@@ -178,7 +177,7 @@ export const FavCafe = () => {
 
 					<h1
 						id="versus"
-						className="font-title absolute top-1/2 left-1/2 z-20 h-64 w-fit origin-center -translate-1/2 text-center text-8xl leading-none opacity-0"
+						className="font-title absolute top-1/2 left-1/2 z-20 h-64 w-fit origin-center -translate-1/2 text-center text-6xl leading-none opacity-0 xl:text-8xl"
 					>
 						VS
 					</h1>
@@ -186,7 +185,7 @@ export const FavCafe = () => {
 						id="baljan-logo"
 						src="/baljan_logga.png"
 						alt="baljan logga"
-						className="absolute top-1/2 left-1/5 z-20 w-64 -translate-y-1/2 opacity-0"
+						className="absolute top-1/2 left-1/5 z-20 w-[25vh] -translate-y-1/2 opacity-0"
 						width={881}
 						height={881}
 					/>
@@ -194,25 +193,25 @@ export const FavCafe = () => {
 						id="byttan-logo"
 						src="/byttan_logga.png"
 						alt="byttan logga"
-						className="absolute top-1/2 right-1/5 z-20 w-64 -translate-y-1/2 opacity-0"
+						className="absolute top-1/2 right-1/5 z-20 w-[25vh] -translate-y-1/2 opacity-0"
 						width={881}
 						height={881}
 					/>
 					<h2
 						id="title"
-						className="font-title absolute top-54 left-1/2 z-20 -translate-x-1/2 text-6xl opacity-0"
+						className="font-title absolute top-[20%] left-1/2 z-20 -translate-x-1/2 text-6xl opacity-0"
 					>
 						Ditt favoritcafé var:
 					</h2>
 					<h1
 						id="sub-title"
-						className="font-title absolute top-144 left-1/2 z-20 -translate-x-1/2 text-8xl opacity-0"
+						className="font-title absolute top-[60%] left-1/2 z-20 -translate-x-1/2 text-8xl opacity-0"
 					>
 						{is_baljan ? "Baljan" : "Byttan"}
 					</h1>
 					<p
 						id="info"
-						className="absolute top-174 left-1/2 z-20 -translate-x-1/2 text-center font-sans text-2xl opacity-0"
+						className="absolute top-[75%] left-1/2 z-20 -translate-x-1/2 text-center text-2xl opacity-0"
 					>
 						{diff == 0 ? (
 							"Du drack alla dina koppar där!"

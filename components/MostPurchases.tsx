@@ -60,9 +60,9 @@ export const MostPurchases = () => {
 								type: "spring",
 								duration: 0.4
 							}}
-							className="absolute bottom-0 left-40 origin-bottom-left rotate-4"
+							className="absolute bottom-0 left-20 origin-bottom-left rotate-4 xl:left-40"
 						>
-							<FaCheck className="h-48 w-48 fill-gray-300" />
+							<FaCheck className="h-32 w-32 fill-gray-300 xl:h-48 xl:w-48" />
 						</motion.div>
 						<motion.div
 							initial={{
@@ -76,14 +76,14 @@ export const MostPurchases = () => {
 								type: "spring",
 								duration: 0.4
 							}}
-							className="absolute right-40 bottom-0 origin-bottom-right -rotate-4"
+							className="absolute right-20 bottom-0 origin-bottom-right -rotate-4 xl:right-40"
 						>
-							<FaCheck className="h-48 w-48 fill-gray-300" />
+							<FaCheck className="h-32 w-32 fill-gray-300 xl:h-48 xl:w-48" />
 						</motion.div>
-						<FaCheck className="relative h-72 w-72" />
+						<FaCheck className="relative h-48 w-48 xl:h-72 xl:w-72" />
 					</div>
 					<motion.h1
-						className="font-title mt-8 text-center text-7xl"
+						className="font-title mt-8 text-center text-6xl xl:text-7xl"
 						initial={{ opacity: 0 }}
 						whileInView={{ opacity: 1 }}
 						transition={{ delay: 1 }}
@@ -95,10 +95,17 @@ export const MostPurchases = () => {
 						initial={{ opacity: 0 }}
 						whileInView={{ opacity: 1 }}
 						transition={{ delay: 2 }}
-						className="mt-4 text-center font-sans text-3xl lg:mt-12"
+						className="line mt-4 text-center font-sans text-3xl/relaxed md:mt-12"
 					>
-						Då blippade du hela{" "}
-						<Standout>{most_purchases.count}</Standout> gånger.{" "}
+						Då blippade du{" "}
+						<span hidden={most_purchases.count <= 1}>hela</span>{" "}
+						<Standout>
+							{most_purchases.count} gång
+							<span hidden={most_purchases.count <= 1}>
+								er
+							</span>{" "}
+						</Standout>
+						under en dag.
 						<br hidden={most_purchases.dates.length == 1} />
 						{most_purchases.dates.length > 1 &&
 							`Du nådde samma höjder ${formatMultipleDates(most_purchases.dates.slice(1))}.`}

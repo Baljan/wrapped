@@ -4,6 +4,7 @@ import { Element } from "react-scroll";
 import StolenCounter from "./StolenCounter";
 import Confetti from "react-confetti-boom";
 import { useEffect, useRef } from "react";
+import { Standout } from "./Standout";
 
 const CUTOFF = 50;
 
@@ -16,14 +17,18 @@ export const Placement = () => {
 		if (overall_placement == 0) {
 			return (
 				<>
-					En första plats! Stort, stort grattis!
+					En <Standout>första plats</Standout>! Stort, stort grattis!
 					<br />
-					Det finns inget pris bättre än äran, och kanske en
-					reflektion över sin konsumering.
+					Det finns inget pris bättre än äran, visst?
 				</>
 			);
 		} else if (overall_placement == 1) {
-			return "En stark andraplats! Riktigt bra kämpat!";
+			return (
+				<>
+					En stark <Standout>andraplats</Standout>! Riktigt bra
+					kämpat!
+				</>
+			);
 		} else if (overall_placement == 2) {
 			return "Topp tre! En av dem som krigat mest alltså!";
 		} else if (overall_placement < 10) {
@@ -41,7 +46,7 @@ export const Placement = () => {
 			className="sticky top-0 flex h-screen w-screen flex-col items-center justify-center bg-blue-400"
 		>
 			<motion.h1
-				className="font-title relative z-0 pt-8 text-center text-8xl"
+				className="font-title relative z-0 pt-8 text-center text-6xl xl:text-7xl"
 				ref={ref}
 			>
 				Du hamnade på plats
@@ -77,7 +82,7 @@ export const Placement = () => {
 				initial={{ opacity: 0 }}
 				whileInView={{ opacity: 1 }}
 				transition={{ delay: 2 }}
-				className="mt-8 max-w-196 text-center font-sans text-3xl"
+				className="mt-8 max-w-196 text-center font-sans text-3xl/relaxed"
 			>
 				{getCongratulationsMessage()}
 			</motion.p>

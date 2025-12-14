@@ -10,6 +10,7 @@
   --color-foreground: var(--foreground);
   --font-title: var(--font-lobster-sans);
   --font-sans: var(--font-arial-sans);
+  --font-bold: var(--font-arial-bold);
 }
 
 @media (prefers-color-scheme: dark) {

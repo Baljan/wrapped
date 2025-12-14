@@ -33,13 +33,18 @@ export const AmountOfCoffee = () => {
 
 	return (
 		<>
-			<CoffeePour className="mx-auto h-fit w-96 max-w-full fill-yellow-950" />
+			<CoffeePour
+				name="coffee_pour"
+				key="coffee_pour"
+				className="mx-auto h-fit w-96 max-w-full fill-yellow-950"
+			/>
 			<Element
 				name="amount_of_coffee"
+				key="amount_of_coffee"
 				className="sticky top-0 flex h-screen w-screen flex-col items-center justify-center bg-yellow-950 px-8"
 			>
 				<motion.h1
-					className="font-title pt-8 text-center text-5xl text-yellow-100 lg:text-9xl"
+					className="font-title pt-8 text-center text-5xl text-yellow-100 md:text-9xl"
 					initial={{ opacity: 0 }}
 					whileInView={{ opacity: 1 }}
 					transition={{ delay: 0.5 }}
@@ -47,7 +52,7 @@ export const AmountOfCoffee = () => {
 					Du drack {n_orders} koppar kaffe!
 				</motion.h1>
 				<motion.p
-					className="mt-4 text-center text-2xl text-yellow-100 lg:mt-12 lg:text-3xl"
+					className="mt-4 text-center font-sans text-3xl/relaxed text-yellow-100 md:mt-12 md:text-3xl"
 					initial={{ opacity: 0 }}
 					whileInView={{ opacity: 1 }}
 					transition={{ delay: 2 }}
@@ -57,10 +62,10 @@ export const AmountOfCoffee = () => {
 					<Standout>{convertMass(caffeine_mg)}</Standout> koffein.
 				</motion.p>
 				<motion.p
-					className="mt-4 text-center text-2xl text-yellow-100 lg:text-3xl"
+					className="mt-4 text-center font-sans text-3xl/relaxed text-yellow-100 md:text-3xl"
 					initial={{ opacity: 0 }}
 					whileInView={{ opacity: 1 }}
-					transition={{ delay: 2.5 }}
+					transition={{ delay: 3 }}
 				>
 					Det är i snitt <Standout>{week_avg} koppar</Standout> i
 					veckan.

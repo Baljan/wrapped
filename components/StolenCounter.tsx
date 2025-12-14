@@ -105,7 +105,6 @@ export default function StolenCounter({
 	gap = 8,
 	borderRadius = 4,
 	horizontalPadding = 8,
-	textColor = "white",
 	fontWeight = "bold",
 	containerStyle,
 	counterStyle,

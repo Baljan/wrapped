@@ -11,8 +11,13 @@ const lobsterSans = Lobster({
 });
 
 const arialRoundedSans = localFont({
-	src: "../public/Arial Rounded MT Bold Regular.ttf",
+	src: "../public/Arial Rounded MT Regular.ttf",
 	variable: "--font-arial-sans"
+});
+
+const arialRoundedBold = localFont({
+	src: "../public/Arial Rounded MT Bold Regular.ttf",
+	variable: "--font-arial-bold"
 });
 
 export const metadata: Metadata = {
@@ -27,7 +32,7 @@ export default function RootLayout({
 	return (
 		<html lang="en">
 			<body
-				className={`${lobsterSans.variable} ${arialRoundedSans.variable} h-screen w-screen overflow-hidden antialiased`}
+				className={`${lobsterSans.variable} ${arialRoundedSans.variable} ${arialRoundedBold.variable} h-screen max-h-screen w-screen max-w-screen overflow-hidden antialiased`}
 			>
 				{children}
 			</body>
