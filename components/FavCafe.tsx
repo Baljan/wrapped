@@ -177,7 +177,7 @@ export const FavCafe = () => {
 
 					<h1
 						id="versus"
-						className="font-title absolute top-1/2 left-1/2 z-20 h-64 w-fit origin-center -translate-1/2 text-center text-6xl leading-none opacity-0 xl:text-8xl"
+						className="font-title absolute top-1/2 left-1/2 z-20 h-64 w-fit origin-center -translate-1/2 text-center text-6xl leading-none text-white opacity-0 xl:text-8xl"
 					>
 						VS
 					</h1>
@@ -205,13 +205,13 @@ export const FavCafe = () => {
 					</h2>
 					<h1
 						id="sub-title"
-						className="font-title absolute top-[60%] left-1/2 z-20 -translate-x-1/2 text-8xl opacity-0"
+						className="font-title absolute top-[60%] left-1/2 z-20 -translate-x-1/2 text-8xl text-white opacity-0"
 					>
 						{is_baljan ? "Baljan" : "Byttan"}
 					</h1>
 					<p
 						id="info"
-						className="absolute top-[75%] left-1/2 z-20 -translate-x-1/2 text-center text-2xl opacity-0"
+						className="absolute top-[75%] left-1/2 z-20 -translate-x-1/2 text-center text-2xl text-white opacity-0"
 					>
 						{diff == 0 ? (
 							"Du drack alla dina koppar där!"

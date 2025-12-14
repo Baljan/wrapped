@@ -129,7 +129,7 @@ export const WrappedProvider = ({
 					<div
 						id="keyboard-hint"
 						aria-hidden={disabled}
-						className="fixed bottom-8 left-1/2 z-40 -translate-x-1/2 text-4xl font-bold opacity-80 transition-opacity duration-300 aria-hidden:opacity-0 2xl:bottom-16"
+						className="fixed bottom-8 left-1/2 z-40 -translate-x-1/2 fill-white text-4xl font-bold text-white opacity-80 transition-opacity duration-300 aria-hidden:opacity-0 2xl:bottom-16"
 					>
 						<FaArrowDownLong />
 					</div>

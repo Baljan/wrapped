@@ -14,7 +14,7 @@ export const Welcome = () => {
 				animate={{ opacity: 1 }}
 			>
 				<div className="w-fit">
-					<h1 className="font-title px-4 pt-8 text-center text-7xl text-shadow-lg md:text-9xl xl:text-[12rem]">
+					<h1 className="font-title px-4 pt-8 text-center text-7xl text-white text-shadow-lg md:text-9xl xl:text-[12rem]">
 						Blippen Wrapped
 					</h1>
 				</div>
@@ -23,13 +23,13 @@ export const Welcome = () => {
 						initial={{ opacity: 0 }}
 						animate={{ opacity: 1 }}
 						transition={{ delay: 1 }}
-						className="mt-16 font-sans text-3xl"
+						className="mt-16 font-sans text-3xl text-white"
 					>
 						Du tar dig vidare genom att klicka på{" "}
 						<Standout>mellanslag</Standout>.
 					</motion.p>
 				) : (
-					<p className="mt-4 text-center font-sans text-2xl">
+					<p className="mt-4 text-center font-sans text-2xl text-white">
 						Den här sidan funkar inte på telefoner, snälla gå in på
 						en dator istället!
 					</p>

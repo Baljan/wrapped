@@ -36,7 +36,7 @@ function Number({ mv, number, height }: NumberProps) {
 	};
 
 	return (
-		<motion.span style={{ ...style, y }} className="font-title">
+		<motion.span style={{ ...style, y }} className="font-title text-white">
 			{number}
 		</motion.span>
 	);

@@ -13,13 +13,6 @@
   --font-bold: var(--font-arial-bold);
 }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-    --wow: lab(16.8146% 15.7422 23.1133);
-  }
-}
 
 body {
   background: var(--background);

@@ -46,7 +46,7 @@ export const Placement = () => {
 			className="sticky top-0 flex h-screen w-screen flex-col items-center justify-center bg-blue-400"
 		>
 			<motion.h1
-				className="font-title relative z-0 pt-8 text-center text-6xl xl:text-7xl"
+				className="font-title relative z-0 pt-8 text-center text-6xl text-white xl:text-7xl"
 				ref={ref}
 			>
 				Du hamnade på plats
@@ -82,7 +82,7 @@ export const Placement = () => {
 				initial={{ opacity: 0 }}
 				whileInView={{ opacity: 1 }}
 				transition={{ delay: 2 }}
-				className="mt-8 max-w-196 text-center font-sans text-3xl/relaxed"
+				className="mt-8 max-w-196 text-center font-sans text-3xl/relaxed text-white"
 			>
 				{getCongratulationsMessage()}
 			</motion.p>

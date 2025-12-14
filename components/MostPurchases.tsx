@@ -80,10 +80,10 @@ export const MostPurchases = () => {
 						>
 							<FaCheck className="h-32 w-32 fill-gray-300 xl:h-48 xl:w-48" />
 						</motion.div>
-						<FaCheck className="relative h-48 w-48 xl:h-72 xl:w-72" />
+						<FaCheck className="relative h-48 w-48 text-white xl:h-72 xl:w-72" />
 					</div>
 					<motion.h1
-						className="font-title mt-8 text-center text-6xl xl:text-7xl"
+						className="font-title mt-8 text-center text-6xl text-white xl:text-7xl"
 						initial={{ opacity: 0 }}
 						whileInView={{ opacity: 1 }}
 						transition={{ delay: 1 }}
@@ -95,7 +95,7 @@ export const MostPurchases = () => {
 						initial={{ opacity: 0 }}
 						whileInView={{ opacity: 1 }}
 						transition={{ delay: 2 }}
-						className="line mt-4 text-center font-sans text-3xl/relaxed md:mt-12"
+						className="line mt-4 text-center font-sans text-3xl/relaxed text-white md:mt-12"
 					>
 						Då blippade du{" "}
 						<span hidden={most_purchases.count <= 1}>hela</span>{" "}
