@@ -19,7 +19,9 @@ export default function RootLayout({
 }>) {
 	return (
 		<html lang="en">
-			<body className={`${lobsterSans.variable} antialiased`}>
+			<body
+				className={`${lobsterSans.variable} h-screen w-screen overflow-hidden antialiased`}
+			>
 				{children}
 			</body>
 		</html>

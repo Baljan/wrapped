@@ -9,6 +9,7 @@ import {
 import Image from "next/image";
 import { useEffect, useMemo, useState } from "react";
 import { Element } from "react-scroll";
+import VersusIcon from "@/public/versus.svg";
 
 const slamEasing: BezierDefinition = [0.45, 0, 1, 0.33];
 
@@ -165,15 +166,14 @@ export const FavCafe = () => {
 							is_baljan ? "z-0" : "z-10"
 						)}
 					></div>
-					<h1
+
+					<VersusIcon
 						id="versus"
-						className="absolute top-1/2 left-1/2 z-20 -translate-1/2 font-sans text-9xl opacity-0"
-					>
-						VS
-					</h1>
+						className="absolute top-1/2 left-1/2 z-20 h-64 w-fit -translate-1/2 font-sans opacity-0"
+					/>
 					<Image
 						id="baljan-logo"
-						src="/baljan_logga_with_circle.png"
+						src="/baljan_logga.png"
 						alt="baljan logga"
 						className="absolute top-1/2 left-1/5 z-20 w-64 -translate-y-1/2 opacity-0"
 						width={881}
@@ -181,7 +181,7 @@ export const FavCafe = () => {
 					/>
 					<Image
 						id="byttan-logo"
-						src="/byttan_logga_with_circle.png"
+						src="/byttan_logga.png"
 						alt="byttan logga"
 						className="absolute top-1/2 right-1/5 z-20 w-64 -translate-y-1/2 opacity-0"
 						width={881}
@@ -207,10 +207,9 @@ export const FavCafe = () => {
 							"Du drack alla dina koppar där!"
 						) : (
 							<>
-								Du drack hela {fav_cafe.n_orders} koppar där!
-								<br />
-								{diff} fler koppar än i<span> </span>
-								{fav_cafe.id == 0 ? "Byttan" : "Baljan"}.
+								Du drack hela {fav_cafe.n_orders} koppar där,{" "}
+								{diff} koppar fler än i<span> </span>
+								{fav_cafe.id == 0 ? "Byttan" : "Baljan"}!
 							</>
 						)}
 					</p>

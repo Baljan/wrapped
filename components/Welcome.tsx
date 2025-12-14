@@ -10,7 +10,7 @@ export const Welcome = () => {
 				animate={{ opacity: 1 }}
 			>
 				<div className="w-fit">
-					<h1 className="stroke-2 px-4 font-sans text-7xl lg:text-9xl">
+					<h1 className="px-4 font-sans text-[10rem] text-shadow-lg">
 						Blippen Wrapped
 					</h1>
 				</div>
