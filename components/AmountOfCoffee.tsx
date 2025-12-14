@@ -4,6 +4,7 @@ import { useWrappedContext } from "@/app/context";
 import CoffeePour from "@/public/coffee-pour.svg";
 import { motion } from "motion/react";
 import { Element } from "react-scroll";
+import { Standout } from "./Standout";
 
 const convertVolume = (v_ml: number) => {
 	if (v_ml > 10e3) {
@@ -28,7 +29,7 @@ const convertMass = (m_mg: number) => {
 };
 
 export const AmountOfCoffee = () => {
-	const { n_orders, caffeine_mg } = useWrappedContext();
+	const { n_orders, caffeine_mg, week_avg } = useWrappedContext();
 
 	return (
 		<>
@@ -38,10 +39,10 @@ export const AmountOfCoffee = () => {
 				className="sticky top-0 flex h-screen w-screen flex-col items-center justify-center bg-yellow-950 px-8"
 			>
 				<motion.h1
-					className="text-center font-sans text-5xl text-yellow-100 lg:text-9xl"
+					className="font-title pt-8 text-center text-5xl text-yellow-100 lg:text-9xl"
 					initial={{ opacity: 0 }}
 					whileInView={{ opacity: 1 }}
-					transition={{ delay: 1 }}
+					transition={{ delay: 0.5 }}
 				>
 					Du drack {n_orders} koppar kaffe!
 				</motion.h1>
@@ -49,10 +50,20 @@ export const AmountOfCoffee = () => {
 					className="mt-4 text-center text-2xl text-yellow-100 lg:mt-12 lg:text-3xl"
 					initial={{ opacity: 0 }}
 					whileInView={{ opacity: 1 }}
+					transition={{ delay: 2 }}
+				>
+					Det motsvarar{" "}
+					<Standout>{convertVolume(n_orders * 220)}</Standout> och{" "}
+					<Standout>{convertMass(caffeine_mg)}</Standout> koffein.
+				</motion.p>
+				<motion.p
+					className="mt-4 text-center text-2xl text-yellow-100 lg:text-3xl"
+					initial={{ opacity: 0 }}
+					whileInView={{ opacity: 1 }}
 					transition={{ delay: 2.5 }}
 				>
-					Det motsvarar {convertVolume(n_orders * 220)} och{" "}
-					{convertMass(caffeine_mg)} koffein.
+					Det är i snitt <Standout>{week_avg} koppar</Standout> i
+					veckan.
 				</motion.p>
 			</Element>
 		</>

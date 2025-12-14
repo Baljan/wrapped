@@ -2,6 +2,7 @@ import { useWrappedContext } from "@/app/context";
 import { Element } from "react-scroll";
 import { FaCheck } from "react-icons/fa";
 import { motion } from "motion/react";
+import { Standout } from "./Standout";
 
 const convertDate = (date_string: string) => {
 	const date = new Date(date_string);
@@ -82,10 +83,10 @@ export const MostPurchases = () => {
 						<FaCheck className="relative h-72 w-72" />
 					</div>
 					<motion.h1
-						className="mt-8 text-center font-sans text-7xl"
+						className="font-title mt-8 text-center text-7xl"
 						initial={{ opacity: 0 }}
 						whileInView={{ opacity: 1 }}
-						transition={{ delay: 1.5 }}
+						transition={{ delay: 1 }}
 					>
 						Den {convertDate(most_purchases.dates[0])} blippade du
 						flest gånger!
@@ -93,10 +94,11 @@ export const MostPurchases = () => {
 					<motion.p
 						initial={{ opacity: 0 }}
 						whileInView={{ opacity: 1 }}
-						transition={{ delay: 3 }}
-						className="mt-4 text-center text-3xl lg:mt-12"
+						transition={{ delay: 2 }}
+						className="mt-4 text-center font-sans text-3xl lg:mt-12"
 					>
-						Då blippade du hela {most_purchases.count} gånger!{" "}
+						Då blippade du hela{" "}
+						<Standout>{most_purchases.count}</Standout> gånger.{" "}
 						<br hidden={most_purchases.dates.length == 1} />
 						{most_purchases.dates.length > 1 &&
 							`Du nådde samma höjder ${formatMultipleDates(most_purchases.dates.slice(1))}.`}

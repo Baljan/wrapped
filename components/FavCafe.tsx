@@ -9,7 +9,7 @@ import {
 import Image from "next/image";
 import { useEffect, useMemo, useState } from "react";
 import { Element } from "react-scroll";
-import VersusIcon from "@/public/versus.svg";
+import { Standout } from "./Standout";
 
 const slamEasing: BezierDefinition = [0.45, 0, 1, 0.33];
 
@@ -45,7 +45,10 @@ export const FavCafe = () => {
 					// Next step
 					[
 						"#versus",
-						{ opacity: 1, fontSize: "16rem" },
+						{
+							opacity: 1,
+							fontSize: "16rem"
+						},
 						{ duration: 0.4, ease: slamEasing, at: "-0.4" }
 					],
 					["#baljan-logo", { opacity: 1 }, { duration: 0.4 }],
@@ -65,31 +68,37 @@ export const FavCafe = () => {
 						{ width: "100%" },
 						{ duration: 1, at: "<", ease: "easeOut" }
 					],
-					["#versus", { opacity: 0 }, { duration: 0.3, at: "<" }],
+					["#versus", { opacity: 0 }, { duration: 0.4, at: "<" }],
 					[
 						"#baljan-logo",
+						is_baljan
+							? {
+									left: "50%",
+									x: "-50%",
+									top: "45%"
+								}
+							: {
+									opacity: 0
+								},
 						{
-							opacity: is_baljan ? 1 : 0,
-							left: is_baljan ? "50%" : "0%",
-							x: is_baljan ? "-50%" : "0",
-							top: "45%"
-						},
-						{
-							duration: is_baljan ? 1 : 0.2,
+							duration: is_baljan ? 1 : 0.1,
 							at: "<",
 							ease: is_baljan ? "easeInOut" : "easeIn"
 						}
 					],
 					[
 						"#byttan-logo",
+						!is_baljan
+							? {
+									left: "50%",
+									x: "-50%",
+									top: "45%"
+								}
+							: {
+									opacity: 0
+								},
 						{
-							opacity: is_baljan ? 0 : 1,
-							right: is_baljan ? "0%" : "50%",
-							x: is_baljan ? "-50%" : "0",
-							top: "45%"
-						},
-						{
-							duration: !is_baljan ? 1 : 0.2,
+							duration: !is_baljan ? 1 : 0.1,
 							at: "<",
 							ease: is_baljan ? "easeIn" : "easeInOut"
 						}
@@ -167,10 +176,12 @@ export const FavCafe = () => {
 						)}
 					></div>
 
-					<VersusIcon
+					<h1
 						id="versus"
-						className="absolute top-1/2 left-1/2 z-20 h-64 w-fit -translate-1/2 font-sans opacity-0"
-					/>
+						className="font-title absolute top-1/2 left-1/2 z-20 h-64 w-fit origin-center -translate-1/2 text-center text-8xl leading-none opacity-0"
+					>
+						VS
+					</h1>
 					<Image
 						id="baljan-logo"
 						src="/baljan_logga.png"
@@ -189,26 +200,28 @@ export const FavCafe = () => {
 					/>
 					<h2
 						id="title"
-						className="absolute top-54 left-1/2 z-20 -translate-x-1/2 font-sans text-6xl opacity-0"
+						className="font-title absolute top-54 left-1/2 z-20 -translate-x-1/2 text-6xl opacity-0"
 					>
 						Ditt favoritcafé var:
 					</h2>
 					<h1
 						id="sub-title"
-						className="absolute top-144 left-1/2 z-20 -translate-x-1/2 font-sans text-8xl opacity-0"
+						className="font-title absolute top-144 left-1/2 z-20 -translate-x-1/2 text-8xl opacity-0"
 					>
 						{is_baljan ? "Baljan" : "Byttan"}
 					</h1>
 					<p
 						id="info"
-						className="absolute top-174 left-1/2 z-20 -translate-x-1/2 text-center text-2xl opacity-0"
+						className="absolute top-174 left-1/2 z-20 -translate-x-1/2 text-center font-sans text-2xl opacity-0"
 					>
 						{diff == 0 ? (
 							"Du drack alla dina koppar där!"
 						) : (
 							<>
-								Du drack hela {fav_cafe.n_orders} koppar där,{" "}
-								{diff} koppar fler än i<span> </span>
+								Du drack hela{" "}
+								<Standout>{fav_cafe.n_orders} koppar </Standout>
+								där, <Standout>{diff} koppar</Standout> fler än
+								i<span> </span>
 								{fav_cafe.id == 0 ? "Byttan" : "Baljan"}!
 							</>
 						)}

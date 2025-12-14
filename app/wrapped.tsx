@@ -9,21 +9,20 @@ import { useEffect, useRef, useState } from "react";
 import { scroller } from "react-scroll";
 import { WrappedProvider } from "./context";
 import { WrappedData } from "./types";
+import { Placement } from "@/components/Placement";
+import { End } from "@/components/End";
 
 const states = [
 	"welcome",
 	"amount_of_coffee",
+	"placement",
 	"most_purchases",
-	"best_placement",
-	"longest_streak",
 	"favorite_cafe",
-	"shortest_delta",
-	"weekly_average",
 	"end"
 ];
 
 export const Wrapped = ({ data }: { data: WrappedData }) => {
-	const [state, setState] = useState<number>(0);
+	const [state, setState] = useState<number>(2);
 	const ref = useRef<HTMLDivElement>(null);
 
 	useEffect(() => {
@@ -54,8 +53,10 @@ export const Wrapped = ({ data }: { data: WrappedData }) => {
 				<AnimatePresence mode="popLayout">
 					<Welcome />
 					<AmountOfCoffee />
+					<Placement />
 					<MostPurchases />
 					<FavCafe />
+					<End />
 				</AnimatePresence>
 			</div>
 		</WrappedProvider>
