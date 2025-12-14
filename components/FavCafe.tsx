@@ -23,7 +23,8 @@ export const FavCafe = () => {
 	const { fav_cafe, n_orders } = useWrappedContext();
 
 	const is_baljan = fav_cafe.id == 0;
-	const diff = n_orders - fav_cafe.n_orders;
+	const in_other_cafe = n_orders - fav_cafe.n_orders;
+	const diff = fav_cafe.n_orders - in_other_cafe;
 
 	const isInView = useInView(scope);
 	const [step, setStep] = useState(0);
@@ -213,7 +214,7 @@ export const FavCafe = () => {
 						id="info"
 						className="absolute top-[75%] left-1/2 z-20 -translate-x-1/2 text-center text-2xl text-white opacity-0"
 					>
-						{diff == 0 ? (
+						{in_other_cafe == 0 ? (
 							"Du drack alla dina koppar där!"
 						) : (
 							<>
