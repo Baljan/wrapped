@@ -10,19 +10,19 @@ const NEXT_URL =
 		: "http://localhost:3000";
 
 const nextConfig: NextConfig = {
-	// async redirects() {
-	// 	return [
-	// 		{
-	// 			missing: [
-	// 				{ type: "cookie", key: "baljansessid" },
-	// 				{ type: "cookie", key: "csrftoken" }
-	// 			],
-	// 			source: "/",
-	// 			destination: `${BACKEND_URL}?next=${NEXT_URL}`,
-	// 			statusCode: 307
-	// 		}
-	// 	];
-	// },
+	async redirects() {
+		return [
+			{
+				missing: [
+					{ type: "cookie", key: "baljansessid" },
+					{ type: "cookie", key: "csrftoken" }
+				],
+				source: "/",
+				destination: `${BACKEND_URL}?next=${NEXT_URL}`,
+				statusCode: 307
+			}
+		];
+	},
 	turbopack: {
 		rules: {
 			"*.svg": {

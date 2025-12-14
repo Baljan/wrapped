@@ -5,12 +5,15 @@ import data from "../_data.json";
 
 export const loadWrappedData = async () => {
 	// This will obv be removed in favor of some verison of the request below
-	return { success: true, data };
+
+	if (process.env.NODE_ENV !== "production") {
+		return { success: true, data };
+	}
 
 	const cookieStore = await cookies();
 
 	try {
-		const resp = await axios.get("http://localhost:8000/wrapped", {
+		const resp = await axios.get("https://www.baljan.org/wrapped", {
 			// Horrible solution but we ball
 			headers: {
 				Cookie: cookieStore
