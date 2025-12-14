@@ -1,3 +1,6 @@
+// https://reactbits.dev/components/counter
+// Hederligt stulet
+
 import {
 	MotionValue,
 	motion,
@@ -97,7 +100,7 @@ interface CounterProps {
 	bottomGradientStyle?: React.CSSProperties;
 }
 
-export default function StolenCounter({
+export default function Counter({
 	value,
 	fontSize = 100,
 	padding = 0,

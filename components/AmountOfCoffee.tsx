@@ -7,22 +7,22 @@ import { Element } from "react-scroll";
 import { Standout } from "./Standout";
 
 const convertVolume = (v_ml: number) => {
-	if (v_ml > 10e3) {
-		return `${(v_ml / 10e3).toFixed(1)} liter`;
-	} else if (v_ml > 10e2) {
-		return `${(v_ml / 10e2).toFixed(1)} dl`;
+	if (v_ml > 10e2) {
+		return `${(v_ml / 10e2).toFixed(1)} liter`;
 	} else if (v_ml > 10e1) {
-		return `${(v_ml / 10e1).toFixed(1)} cl`;
+		return `${(v_ml / 10e1).toFixed(1)} dl`;
+	} else if (v_ml > 10) {
+		return `${(v_ml / 10).toFixed(1)} cl`;
 	}
 
 	return `${v_ml} ml`;
 };
 
 const convertMass = (m_mg: number) => {
-	if (m_mg > 10e4) {
-		return `${(m_mg / 10e4).toFixed(1)} kg`;
-	} else if (m_mg > 10e1) {
-		return `${(m_mg / 10e1).toFixed(1)} g`;
+	if (m_mg > 10e3) {
+		return `${(m_mg / 10e3).toFixed(1)} kg`;
+	} else if (m_mg > 10) {
+		return `${(m_mg / 10).toFixed(1)} g`;
 	}
 
 	return `${m_mg} mg`;

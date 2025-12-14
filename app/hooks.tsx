@@ -6,9 +6,7 @@ export const useMobileDetection = () => {
 	const [isMobile, setIsMobile] = useState<boolean>(false);
 
 	useEffect(() => {
-		console.log(window);
 		if (window) {
-			console.log(window.innerWidth, window.innerWidth <= 768);
 			function handleWindowSizeChange() {
 				setIsMobile(window.innerWidth <= 768);
 			}

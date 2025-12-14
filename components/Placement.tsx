@@ -1,9 +1,9 @@
 import { useWrappedContext } from "@/app/context";
 import { motion, useInView } from "motion/react";
-import { Element } from "react-scroll";
-import StolenCounter from "./StolenCounter";
+import { useRef } from "react";
 import Confetti from "react-confetti-boom";
-import { useEffect, useRef } from "react";
+import { Element } from "react-scroll";
+import Counter from "./Counter";
 import { Standout } from "./Standout";
 
 const CUTOFF = 50;
@@ -51,7 +51,7 @@ export const Placement = () => {
 			>
 				Du hamnade på plats
 				<br />
-				<StolenCounter
+				<Counter
 					gradientFrom="#51a2ff"
 					value={overall_placement + 1}
 					fontSize={160}
