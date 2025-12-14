@@ -199,7 +199,7 @@ export const FavCafe = () => {
 					/>
 					<h2
 						id="title"
-						className="font-title absolute top-[20%] left-1/2 z-20 -translate-x-1/2 text-6xl opacity-0"
+						className="font-title absolute top-[20%] left-1/2 z-20 -translate-x-1/2 text-6xl text-white opacity-0"
 					>
 						Ditt favoritcafé var:
 					</h2>
