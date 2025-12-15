@@ -19,10 +19,10 @@ const convertVolume = (v_ml: number) => {
 };
 
 const convertMass = (m_mg: number) => {
-	if (m_mg > 10e3) {
-		return `${(m_mg / 10e3).toFixed(1)} kg`;
-	} else if (m_mg > 10) {
-		return `${(m_mg / 10).toFixed(1)} g`;
+	if (m_mg > 1e6) {
+		return `${(m_mg / 1e6).toFixed(1)} kg`;
+	} else if (m_mg > 1e3) {
+		return `${(m_mg / 1e3).toFixed(1)} g`;
 	}
 
 	return `${m_mg} mg`;
