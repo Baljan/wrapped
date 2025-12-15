@@ -24,7 +24,7 @@ export const Welcome = () => {
 							initial={{ opacity: 0 }}
 							animate={{ opacity: 1 }}
 							transition={{ delay: 0.5 }}
-							className="mt-4 px-4 pt-4 text-center font-bold text-3xl text-white text-shadow-lg xl:pt-8 xl:text-3xl"
+							className="mt-4 px-4 pt-4 text-center text-2xl font-bold text-white text-shadow-lg xl:pt-8 xl:text-3xl"
 						>
 							Dina blipps för HT25 sammanfattade
 						</motion.h2>
@@ -32,9 +32,10 @@ export const Welcome = () => {
 							initial={{ opacity: 0 }}
 							animate={{ opacity: 1 }}
 							transition={{ delay: 1.5 }}
-							className="mt-32 font-sans text-3xl text-white"
+							className="mt-32 font-sans text-2xl text-white"
 						>
 							Du tar dig vidare genom att klicka på{" "}
+							<Standout>skärmen</Standout> eller{" "}
 							<Standout>mellanslag</Standout>.
 						</motion.p>
 					</>

@@ -104,7 +104,7 @@ export const WrappedProvider = ({
 	}, [ref, step]);
 
 	useEffect(() => {
-		function eventListener(ev: KeyboardEvent) {
+		function keyboardListener(ev: KeyboardEvent) {
 			ev.preventDefault();
 
 			if (ev.code === "Space" && step + 1 < STATES.length) {
@@ -115,17 +115,30 @@ export const WrappedProvider = ({
 			}
 		}
 
-		document.addEventListener("keypress", eventListener);
+		function touchScreenListener(ev: PointerEvent) {
+			ev.preventDefault();
+
+			if (step + 1 < STATES.length) {
+				if (disabled || isMobile) {
+					return;
+				}
+				setStep(step + 1);
+			}
+		}
+
+		document.addEventListener("click", touchScreenListener);
+		document.addEventListener("keypress", keyboardListener);
 
 		return () => {
-			document.removeEventListener("keypress", eventListener);
+			document.removeEventListener("click", touchScreenListener);
+			document.removeEventListener("keypress", keyboardListener);
 		};
 	}, [step, disabled, isMobile]);
 
 	return (
 		<WrappedContext.Provider value={{ ...data, setStep, step }}>
 			<div
-				className="relative bg-linear-to-tr from-[#00a4e0] via-purple-500 to-[#e6008b] bg-fixed"
+				className="from-baljan-dark-blue to-baljan-pink relative bg-linear-to-tr via-purple-500 bg-fixed"
 				ref={ref}
 			>
 				<AnimatePresence>{children}</AnimatePresence>

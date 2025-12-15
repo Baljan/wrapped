@@ -164,14 +164,14 @@ export const FavCafe = () => {
 					<div
 						id="baljan-background"
 						className={clsx(
-							"absolute left-0 z-0 h-screen -skew-x-12 bg-pink-500",
+							"bg-baljan-pink absolute left-0 z-0 h-screen -skew-x-12",
 							is_baljan ? "z-10" : "z-0"
 						)}
 					></div>
 					<div
 						id="byttan-background"
 						className={clsx(
-							"absolute right-0 z-0 h-screen -skew-x-12 bg-blue-500",
+							"bg-baljan-blue absolute right-0 z-0 h-screen -skew-x-12",
 							is_baljan ? "z-0" : "z-10"
 						)}
 					></div>

@@ -43,7 +43,7 @@ export const Placement = () => {
 	return (
 		<Element
 			name="placement"
-			className="sticky top-0 flex h-screen w-screen flex-col items-center justify-center bg-blue-400"
+			className="bg-baljan-dark-blue sticky top-0 flex h-screen w-screen flex-col items-center justify-center"
 		>
 			<motion.h1
 				className="font-title relative z-0 pt-8 text-center text-6xl text-white xl:text-7xl"
@@ -51,11 +51,7 @@ export const Placement = () => {
 			>
 				Du hamnade på plats
 				<br />
-				<Counter
-					gradientFrom="#51a2ff"
-					value={overall_placement + 1}
-					fontSize={160}
-				/>
+				<Counter gradientFrom="var(--color-baljan-dark-blue)" value={overall_placement + 1} fontSize={160} />
 				<br />
 				bland alla {is_staff ? "jobbare" : "vanliga användare"}!
 			</motion.h1>

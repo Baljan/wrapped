@@ -11,6 +11,10 @@
   --font-title: var(--font-lobster-sans);
   --font-sans: var(--font-arial-sans);
   --font-bold: var(--font-arial-bold);
+
+  --color-baljan-blue: rgb(0, 164, 224);
+  --color-baljan-pink: rgb(230, 0, 139);
+  --color-baljan-dark-blue: rgb(47, 48, 140);
 }
 
 
