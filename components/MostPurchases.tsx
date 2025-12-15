@@ -16,8 +16,12 @@ const convertDate = (date_string: string) => {
 const formatMultipleDates = (d: string[]) => {
 	const dates = d.map(convertDate).map((a) => "den " + a);
 
+	if (dates.length == 1) {
+		return dates[0];
+	}
+
 	if (dates.length > 3) {
-		return dates.slice(0, 3).join(", ") + " bl.a.";
+		return dates.slice(0, 3).join(", ") + " bl.a";
 	} else {
 		return (
 			dates.slice(0, dates.length - 1).join(", ") +
