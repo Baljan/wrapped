@@ -59,7 +59,10 @@ export const AmountOfCoffee = () => {
 				>
 					Det motsvarar{" "}
 					<Standout>{convertVolume(n_orders * 220)}</Standout> och{" "}
-					<Standout>{convertMass(caffeine_mg)}</Standout> koffein.
+					<Standout>
+						{convertMass(n_orders * ((70 / 15) * 22))}
+					</Standout>{" "}
+					koffein.
 				</motion.p>
 				<motion.p
 					className="mt-4 text-center font-sans text-3xl/relaxed text-yellow-100 md:text-3xl"
