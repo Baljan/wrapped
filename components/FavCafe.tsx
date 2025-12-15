@@ -48,7 +48,7 @@ export const FavCafe = () => {
 						"#versus",
 						{
 							opacity: 1,
-							fontSize: "12vh"
+							fontSize: "20vh"
 						},
 						{ duration: 0.4, ease: slamEasing, at: "-0.4" }
 					],
@@ -178,7 +178,7 @@ export const FavCafe = () => {
 
 					<h1
 						id="versus"
-						className="font-title absolute top-1/2 left-1/2 z-20 h-64 w-fit origin-center -translate-1/2 text-center text-6xl leading-none text-white opacity-0 xl:text-8xl"
+						className="font-title absolute top-1/2 left-1/2 z-20 h-64 w-fit origin-center -translate-1/2 text-center text-6xl/[unset] leading-[unset] text-white opacity-0 xl:text-8xl/[unset]"
 					>
 						VS
 					</h1>

@@ -36,7 +36,7 @@ export const AmountOfCoffee = () => {
 			<CoffeePour2
 				name="coffee_pour"
 				key="coffee_pour"
-				className="mx-auto h-fit w-96 max-w-full fill-yellow-950"
+				className="mx-auto h-fit w-96 max-w-full fill-yellow-950 ps-32"
 			/>
 			<Element
 				name="amount_of_coffee"

@@ -16,8 +16,6 @@ import { useMobileDetection } from "./hooks";
 
 export type WrappedContextSchema = WrappedData;
 
-const TIMERS = [0, 5, 5, 5, 7, 0];
-
 const WrappedContext = createContext<
 	WrappedContextSchema & {
 		setStep: (step: number) => void;
@@ -25,44 +23,47 @@ const WrappedContext = createContext<
 	}
 >({
 	is_staff: true,
-	overall_placement: 8,
-	n_orders: 162,
-	caffeine_mg: 39204,
+	overall_placement: 0,
+	n_orders: 1337,
+	caffeine_mg: 42069,
 	most_purchases: {
-		count: 5,
-		dates: ["2025-09-23", "2025-08-29", "2025-09-30"]
+		count: 42,
+		dates: ["2048-02-31"]
 	},
 	best_placement: {
-		date: "2025-09-30",
-		count: 5,
+		date: "1970-01-01",
+		count: -1,
 		place: 0,
 		shared: 0,
-		other_dates: ["2025-08-18", "2025-09-17"]
+		other_dates: []
 	},
 	longest_streak: {
-		start: "2025-08-26",
-		end: "2025-09-01",
-		duration: 5
+		start: "2001-06-10",
+		end: "2075-02-16",
+		duration: Math.PI
 	},
-	shortest_delta: "0:00:05.863673",
+	shortest_delta: "0",
 	fav_cafe: {
 		id: 0,
-		n_orders: 146
+		n_orders: 2
 	},
-	week_avg: 1.82,
+	week_avg: Math.LN2,
 	setStep: (_v) => void 0,
 	step: 0
 });
 
 export const useWrappedContext = () => useContext(WrappedContext);
 
-const states = [
-	"welcome",
-	"amount_of_coffee",
-	"placement",
-	"most_purchases",
-	"favorite_cafe",
-	"end"
+const STATES = [
+	{ name: "welcome", lock_duration: 0 },
+	{
+		name: "amount_of_coffee",
+		lock_duration: 5
+	},
+	{ name: "placement", lock_duration: 5 },
+	{ name: "most_purchases", lock_duration: 5 },
+	{ name: "favorite_cafe", lock_duration: 7 },
+	{ name: "end", lock_duration: 0 }
 ];
 
 export const WrappedProvider = ({
@@ -82,11 +83,14 @@ export const WrappedProvider = ({
 		const getTimeout = () => {
 			setDisabled(true);
 
-			return setTimeout(() => setDisabled(false), TIMERS[step] * 1e3);
+			return setTimeout(
+				() => setDisabled(false),
+				STATES[step].lock_duration * 1e3
+			);
 		};
 
 		if (ref.current) {
-			scroller.scrollTo(states[step], {
+			scroller.scrollTo(STATES[step].name, {
 				smooth: true,
 				duration: 1e3
 			});
@@ -103,7 +107,7 @@ export const WrappedProvider = ({
 		function eventListener(ev: KeyboardEvent) {
 			ev.preventDefault();
 
-			if (ev.code === "Space" && step + 1 < states.length) {
+			if (ev.code === "Space" && step + 1 < STATES.length) {
 				if (disabled || isMobile) {
 					return;
 				}
@@ -125,7 +129,7 @@ export const WrappedProvider = ({
 				ref={ref}
 			>
 				<AnimatePresence>{children}</AnimatePresence>
-				{!isMobile && step < states.length - 1 && (
+				{!isMobile && step < STATES.length - 1 && (
 					<div
 						id="keyboard-hint"
 						aria-hidden={disabled}
