@@ -27,9 +27,9 @@ export const End = () => {
 					setStep(0);
 				}}
 				disabled={step != 5}
-				className="mt-16 flex cursor-pointer items-center justify-center gap-4 text-white rounded-4xl bg-blue-500 px-8 py-4 text-2xl font-bold shadow-md transition-all hover:bg-blue-600 hover:shadow-xl"
+				className="mt-16 flex cursor-pointer items-center justify-center gap-4 rounded-4xl bg-blue-500 px-8 py-4 text-2xl font-bold text-white shadow-md transition-all hover:bg-blue-600 hover:shadow-xl"
 			>
-				<FaRedo /> Börja från början
+				<FaRedo /> Börja om
 			</motion.button>
 		</Element>
 	);
