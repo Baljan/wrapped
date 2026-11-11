@@ -1,4 +1,5 @@
 export interface WrappedData {
+	semester?: string;
 	is_staff: boolean;
 	overall_placement: number;
 	n_orders: number;
