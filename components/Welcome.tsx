@@ -1,3 +1,5 @@
+import { useWrappedContext } from "@/app/context";
+import { semesterShort } from "@/app/format";
 import { useMobileDetection } from "@/app/hooks";
 import { motion } from "framer-motion";
 import { Element } from "react-scroll";
@@ -5,6 +7,7 @@ import { Standout } from "./Standout";
 
 export const Welcome = () => {
 	const isMobile = useMobileDetection();
+	const { semester } = useWrappedContext();
 
 	return (
 		<Element name="welcome" key="welcome">
@@ -26,7 +29,8 @@ export const Welcome = () => {
 							transition={{ delay: 0.5 }}
 							className="mt-4 px-4 pt-4 text-center text-2xl font-bold text-white text-shadow-lg xl:pt-8 xl:text-3xl"
 						>
-							Dina blipps för HT25 sammanfattade
+							Dina blipps för {semesterShort(semester)}{" "}
+							sammanfattade
 						</motion.h2>
 						<motion.p
 							initial={{ opacity: 0 }}

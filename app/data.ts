@@ -23,7 +23,11 @@ export const loadWrappedData = async (): Promise<
 	LoadResult | { status: "login" }
 > => {
 	if (!PROD && !BACKEND_URL) {
-		const mock = await import("../_data.json");
+		// NEXT_PUBLIC_MOCK=staff shows the staff variant
+		const mock =
+			process.env.NEXT_PUBLIC_MOCK === "staff"
+				? await import("../_data.staff.json")
+				: await import("../_data.json");
 		return { status: "ok", data: mock.default as WrappedData };
 	}
 

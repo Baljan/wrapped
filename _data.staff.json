@@ -1,0 +1,56 @@
+{
+	"is_staff": true,
+	"overall_placement": 0,
+	"n_orders": 162,
+	"caffeine_mg": 39204,
+	"most_purchases": {
+		"count": 5,
+		"dates": ["2025-09-23", "2025-08-29", "2025-09-30"]
+	},
+	"best_placement": {
+		"date": "2025-09-30",
+		"count": 5,
+		"place": 2,
+		"shared": 1,
+		"other_dates": ["2025-08-18", "2025-09-17"]
+	},
+	"longest_streak": {
+		"start": "2026-09-14",
+		"end": "2026-09-14",
+		"duration": 1
+	},
+	"shortest_delta": "P0DT00H00M05.863673S",
+	"fav_cafe": {
+		"id": 0,
+		"n_orders": 146
+	},
+	"week_avg": 1.82,
+	"semester": "HT2026",
+	"online_cards": {
+		"count": 0,
+		"by_product": {}
+	},
+	"previous": {
+		"semester": "HT2025",
+		"n_orders": 0
+	},
+	"time_of_day": {
+		"hours": [
+			0, 0, 0, 0, 0, 0, 0, 4, 31, 38, 22, 14, 19, 12, 10, 8, 3, 1, 0, 0,
+			0, 0, 0, 0
+		],
+		"weekdays": [41, 35, 30, 32, 24, 0, 0],
+		"fav_hour": 14,
+		"fav_weekday": 4
+	},
+	"shifts": {
+		"count": 9,
+		"by_span": {
+			"morning": 5,
+			"lunch": 1,
+			"afternoon": 3
+		},
+		"exam_period": 2,
+		"on_call": 4
+	}
+}

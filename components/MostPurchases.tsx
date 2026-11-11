@@ -2,18 +2,10 @@ import { useWrappedContext } from "@/app/context";
 import { Element } from "react-scroll";
 import { FaCheck } from "react-icons/fa";
 import { motion } from "motion/react";
+import { convertDate } from "@/app/format";
 import { Standout } from "./Standout";
 
-const convertDate = (date_string: string) => {
-	const date = new Date(date_string);
-	const formatter = new Intl.DateTimeFormat("sv-SE", { dateStyle: "long" });
-
-	const a = formatter.formatToParts(date);
-
-	return `${a[0].value} ${a[2].value}`;
-};
-
-const formatMultipleDates = (d: string[]) => {
+export const formatMultipleDates = (d: string[]) => {
 	const dates = d.map(convertDate).map((a) => "den " + a);
 
 	if (dates.length == 1) {
@@ -36,7 +28,6 @@ export const MostPurchases = () => {
 
 	return (
 		<>
-			<div className="h-36 w-screen bg-linear-to-b from-yellow-950 via-lime-800 to-green-600"></div>
 			<Element
 				name="most_purchases"
 				className="sticky top-0 h-screen w-screen bg-green-600"

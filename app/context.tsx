@@ -16,10 +16,13 @@ import { useMobileDetection } from "./hooks";
 
 export type WrappedContextSchema = WrappedData;
 
+export type SlideState = { name: string; lock_duration: number };
+
 const WrappedContext = createContext<
 	WrappedContextSchema & {
 		setStep: (step: number) => void;
 		step: number;
+		isLast: boolean;
 	}
 >({
 	is_staff: true,
@@ -48,30 +51,21 @@ const WrappedContext = createContext<
 		n_orders: 2
 	},
 	week_avg: Math.LN2,
-	setStep: (_v) => void 0,
-	step: 0
+	setStep: () => void 0,
+	step: 0,
+	isLast: false
 });
 
 export const useWrappedContext = () => useContext(WrappedContext);
 
-const STATES = [
-	{ name: "welcome", lock_duration: 0 },
-	{
-		name: "amount_of_coffee",
-		lock_duration: 5
-	},
-	{ name: "placement", lock_duration: 5 },
-	{ name: "most_purchases", lock_duration: 5 },
-	{ name: "favorite_cafe", lock_duration: 7 },
-	{ name: "end", lock_duration: 0 }
-];
-
 export const WrappedProvider = ({
 	children,
-	data
+	data,
+	states: STATES
 }: {
 	children: ReactNode;
 	data: WrappedData;
+	states: SlideState[];
 }) => {
 	const [step, setStep] = useState<number>(0);
 	const ref = useRef<HTMLDivElement>(null);
@@ -101,7 +95,7 @@ export const WrappedProvider = ({
 				clearTimeout(timeout);
 			};
 		}
-	}, [ref, step]);
+	}, [ref, step, STATES]);
 
 	useEffect(() => {
 		function keyboardListener(ev: KeyboardEvent) {
@@ -133,10 +127,17 @@ export const WrappedProvider = ({
 			document.removeEventListener("click", touchScreenListener);
 			document.removeEventListener("keypress", keyboardListener);
 		};
-	}, [step, disabled, isMobile]);
+	}, [step, disabled, isMobile, STATES]);
 
 	return (
-		<WrappedContext.Provider value={{ ...data, setStep, step }}>
+		<WrappedContext.Provider
+			value={{
+				...data,
+				setStep,
+				step,
+				isLast: step === STATES.length - 1
+			}}
+		>
 			<div
 				className="from-baljan-dark-blue to-baljan-pink relative bg-linear-to-tr via-purple-500 bg-fixed"
 				ref={ref}

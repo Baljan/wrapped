@@ -5,7 +5,7 @@ import { Element } from "react-scroll";
 import { Standout } from "./Standout";
 
 export const End = () => {
-	const { setStep, step } = useWrappedContext();
+	const { setStep, isLast } = useWrappedContext();
 
 	return (
 		<Element
@@ -29,7 +29,7 @@ export const End = () => {
 					e.currentTarget.blur();
 					setStep(0);
 				}}
-				disabled={step != 5}
+				disabled={!isLast}
 				className="bg-baljan-blue relative z-40 mt-16 flex cursor-pointer items-center justify-center gap-4 rounded-4xl px-8 py-4 text-2xl font-bold text-white shadow-md transition-all hover:bg-sky-600 hover:shadow-xl"
 			>
 				<FaRedo /> Börja om
