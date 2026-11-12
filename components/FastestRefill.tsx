@@ -29,8 +29,8 @@ const readout = (s: number) => {
 const unit = (s: number) => (s < 60 ? "sek" : s < 3600 ? "min" : "tim");
 
 const comment = (s: number) => {
-	if (s < 60) return "Bjöd du en kompis, eller var det en sån dag?";
-	if (s < 3600) return "Påtår innan föreläsningen hann börja.";
+	if (s < 60) return "Galet, hur lyckas du?";
+	if (s < 3600) return "Har du hål i koppen?";
 	return "Du tar ett kaffe i taget. Respekt.";
 };
 

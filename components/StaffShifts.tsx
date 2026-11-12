@@ -148,11 +148,9 @@ export const StaffShifts = () => {
 				)}
 				{shifts.count > 0 && shifts.on_call > 0 && (
 					<>
-						Plus <Standout>{shifts.on_call} jourpass</Standout>
-						.{" "}
+						Plus <Standout>{shifts.on_call} jourpass</Standout>.
 					</>
 				)}
-				Någon måste ju koka kaffet.
 			</motion.p>
 		</Element>
 	);

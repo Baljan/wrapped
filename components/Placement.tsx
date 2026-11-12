@@ -32,14 +32,14 @@ export const Placement = () => {
 				</>
 			);
 		} else if (overall_placement == 2) {
-			return "Topp tre! En av dem som krigat mest alltså!";
+			return "Topp tre! En av dem som krigat absolut mest!";
 		} else if (overall_placement < 10) {
 			return "Topp tio, riktigt bra placering!";
 		} else if (overall_placement < CUTOFF) {
-			return "Ändå bland de översta femtio. Bra där!";
+			return "Ändå bland de översta femtio, för chill!";
 		}
 
-		return "Inte ens topp femtio? Kom igen nu!";
+		return "Inte ens topp femtio? Mer kaffe åt folket nästa termin";
 	};
 
 	return (
