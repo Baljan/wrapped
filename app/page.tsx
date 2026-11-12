@@ -1,9 +1,10 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useCallback, useEffect, useState, useSyncExternalStore } from "react";
 import { LoadResult, loadWrappedData, loginUrl } from "./data";
 import { Wrapped } from "./wrapped";
 import { WelcomeScreen } from "@/components/Welcome";
+import { Countdown, isBeforeRelease } from "@/components/Countdown";
 import { WELCOME_BACKGROUND } from "./styles";
 
 const FullscreenMessage = ({ children }: { children: React.ReactNode }) => (
@@ -17,10 +18,28 @@ const FullscreenMessage = ({ children }: { children: React.ReactNode }) => (
 	</div>
 );
 
+// The release time is read once, the countdown itself does the ticking
+const noSubscription = () => () => {};
+
 const Home = () => {
 	const [result, setResult] = useState<LoadResult | null>(null);
+	// null while prerendering and hydrating, the static HTML can't know the time
+	const beforeRelease = useSyncExternalStore(
+		noSubscription,
+		isBeforeRelease,
+		() => null
+	);
+	const [countdownDone, setCountdownDone] = useState(false);
+	const release = useCallback(() => setCountdownDone(true), []);
+	const open =
+		beforeRelease === null ? null : countdownDone || !beforeRelease;
 
+	// Nothing is fetched before release, so nobody is sent off to log in
+	// just to look at the countdown
 	useEffect(() => {
+		if (!open) {
+			return;
+		}
 		loadWrappedData().then((res) => {
 			if (res.status === "login") {
 				window.location.href = loginUrl();
@@ -28,7 +47,15 @@ const Home = () => {
 			}
 			setResult(res);
 		});
-	}, []);
+	}, [open]);
+
+	if (open === false) {
+		return (
+			<div className={WELCOME_BACKGROUND}>
+				<Countdown onDone={release} />
+			</div>
+		);
+	}
 
 	// Same look as the welcome slide, so the static HTML already shows it and
 	// nothing jumps when the data arrives
