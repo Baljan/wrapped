@@ -122,7 +122,7 @@ export const OnlineCards = () => {
 							{...afterAnimation(done)}
 						>
 							Smidigt, va? Nästa finns på samma ställe:{" "}
-							<Standout>baljan.org</Standout>.
+							<Standout>baljan.org</Standout>. KÖÖÖÖP!!!
 						</motion.p>
 					</>
 				) : (
@@ -132,8 +132,8 @@ export const OnlineCards = () => {
 							className={`${BODY} mt-3 md:mt-6`}
 							{...afterAnimation(done)}
 						>
-							Köp på <Standout>baljan.org</Standout>, så hamnar
-							det direkt på ditt konto.
+							Köp på <Standout>baljan.org</Standout>, spara i
+							snitt en timme av ditt liv per år
 						</motion.p>
 					</>
 				)}

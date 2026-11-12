@@ -55,7 +55,7 @@ export const Comparison = () => {
 	let text: string;
 	if (diff > 0) {
 		title = `Mer kaffe än ${prevName}`;
-		text = "Kurserna blev inte lättare, va?";
+		text = "Lock in season?";
 	} else if (diff < 0) {
 		title = `Lugnare än ${prevName}`;
 		text = "Sov du mer i år?";

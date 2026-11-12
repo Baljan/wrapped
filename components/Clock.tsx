@@ -15,22 +15,22 @@ const persona = (hour: number) => {
 	if (hour < 10) {
 		return {
 			name: "Morgonpigg",
-			text: "Kaffet kommer före första föreläsningen."
+			text: "Sluta flexa, gå o lägg dig."
 		};
 	} else if (hour < 13) {
 		return {
 			name: "Lunchkaffaren",
-			text: "Ingen lunch utan en kopp efteråt."
+			text: "Kaffe istället för läsk till maten?"
 		};
 	} else if (hour < 16) {
 		return {
-			name: "Eftermiddagsfikaren",
-			text: "Eftermiddagsdippen har inte en chans."
+			name: "Eftermiddagskaffen",
+			text: "Rätt basic eller?"
 		};
 	}
 	return {
 		name: "Kvällsugglan",
-		text: "Kaffe till kvällsplugget."
+		text: "Hur länge stannar du egentligen?"
 	};
 };
 
@@ -195,7 +195,7 @@ export const Clock = () => {
 					{p.text}{" "}
 					{fav_weekday === 4
 						? "Och fredagar var din kaffedag, helgen börjar med en kopp."
-						: `Och ${day}ar var din kaffedag.`}
+						: `Och ${day}ar var din dag där du behövde mest kaffe.`}
 				</motion.p>
 			</div>
 		</Element>
