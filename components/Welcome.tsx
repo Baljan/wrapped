@@ -10,13 +10,7 @@ export const Welcome = () => {
 	const { semester } = useWrappedContext();
 
 	return (
-		// Same gradient as the page behind it. iOS ignores bg-fixed there, which
-		// would stretch it over every slide, so the first screen paints its own.
-		<Element
-			name="welcome"
-			key="welcome"
-			className="from-baljan-dark-blue to-baljan-pink bg-linear-to-tr via-purple-500"
-		>
+		<Element name="welcome" key="welcome">
 			<motion.div
 				className="relative flex h-svh w-screen flex-col items-center justify-center"
 				initial={{ opacity: 0 }}
