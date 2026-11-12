@@ -16,7 +16,22 @@ import { useMobileDetection } from "./hooks";
 
 export type WrappedContextSchema = WrappedData;
 
-export type SlideState = { name: string; lock_duration: number };
+export type SlideState = {
+	name: string;
+	lock_duration: number;
+	/** The slide's background color, used to tint Safari's toolbars. */
+	color?: string;
+};
+
+/** Turn "var(--x)" into the value behind it, meta tags can't read variables. */
+const resolveColor = (color: string) => {
+	const v = color.match(/^var\((--[^)]+)\)$/);
+	return v
+		? getComputedStyle(document.documentElement)
+				.getPropertyValue(v[1])
+				.trim()
+		: color;
+};
 
 /** How far up a finger has to travel for a swipe to count, in px */
 const SWIPE_DISTANCE = 40;
@@ -112,12 +127,39 @@ export const WrappedProvider = ({
 		}
 	}, [ref, step, STATES]);
 
+	// Tint Safari's status bar and toolbar after the slide on screen. Without
+	// a theme-color Safari guesses from fixed and sticky elements, and the
+	// sticky slides stay stuck at the top, so it kept the first one's brown.
+	// The page background follows too, for browsers that sample that instead.
+	useEffect(() => {
+		const color = STATES[step].color;
+		let meta = document.querySelector<HTMLMetaElement>(
+			'meta[name="theme-color"]'
+		);
+		if (!color) {
+			meta?.remove();
+			document.documentElement.style.backgroundColor = "";
+			return;
+		}
+		if (!meta) {
+			meta = document.createElement("meta");
+			meta.name = "theme-color";
+			document.head.appendChild(meta);
+		}
+		const resolved = resolveColor(color);
+		meta.content = resolved;
+		document.documentElement.style.backgroundColor = resolved;
+	}, [step, STATES]);
+
 	// Slides are h-dvh, so when Safari's toolbar or the window changes size
 	// every slide moves. Snap back to the current one, or the next slide
 	// peeks in at the bottom.
 	useEffect(() => {
 		const resync = () =>
-			scroller.scrollTo(STATES[step].name, { smooth: false, duration: 0 });
+			scroller.scrollTo(STATES[step].name, {
+				smooth: false,
+				duration: 0
+			});
 
 		window.addEventListener("resize", resync);
 		return () => window.removeEventListener("resize", resync);

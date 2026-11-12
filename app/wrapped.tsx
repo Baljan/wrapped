@@ -15,8 +15,12 @@ export const Wrapped = ({ data }: { data: WrappedData }) => {
 	const slides = useMemo(() => slidesFor(data), [data]);
 	const states = useMemo(
 		() =>
-			slides.map(({ name, lock_duration }) => ({ name, lock_duration })),
-		[slides]
+			slides.map((slide) => ({
+				name: slide.name,
+				lock_duration: slide.lock_duration,
+				color: slideColor(slide, data)
+			})),
+		[slides, data]
 	);
 
 	return (

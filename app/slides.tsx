@@ -102,7 +102,12 @@ const SLIDES: Slide[] = [
 			!!d.shifts &&
 			(d.shifts.count > 0 || d.shifts.on_call > 0)
 	},
-	{ name: "end", lock_duration: 0, Component: End }
+	{
+		name: "end",
+		lock_duration: 0,
+		Component: End,
+		color: "var(--color-gray-50)"
+	}
 ];
 
 export const slidesFor = (data: WrappedData) =>
