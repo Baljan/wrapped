@@ -143,7 +143,7 @@ export const StaffShifts = () => {
 				{shifts.exam_period > 0 && (
 					<>
 						<Standout>{shifts.exam_period}</Standout> av dem under
-						tentaperioden.{" "}
+						tekfaktentaperioden.{" "}
 					</>
 				)}
 				{shifts.count > 0 && shifts.on_call > 0 && (
