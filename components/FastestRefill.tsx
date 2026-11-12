@@ -1,5 +1,6 @@
 import { useWrappedContext } from "@/app/context";
 import { parseDuration } from "@/app/format";
+import { BODY, H1, HERO, afterAnimation } from "@/app/styles";
 import {
 	animate,
 	motion,
@@ -8,37 +9,29 @@ import {
 	useTransform
 } from "motion/react";
 import { useEffect, useRef } from "react";
-import { FaStopwatch } from "react-icons/fa6";
 import { Element } from "react-scroll";
-import { Standout } from "./Standout";
+
+const COUNT_DELAY = 0.4;
+const COUNT_DURATION = 1.6;
 
 const pad = (n: number) => String(Math.floor(n)).padStart(2, "0");
 
+/** Number shown while counting, and the unit after it */
 const readout = (s: number) => {
 	if (s < 60) {
-		return `${pad(s)},${pad((s % 1) * 100)}`;
+		return s.toFixed(2).replace(".", ",");
 	} else if (s < 3600) {
-		return `${pad(s / 60)}:${pad(s % 60)}`;
+		return `${Math.floor(s / 60)}:${pad(s % 60)}`;
 	}
-	return `${Math.floor(s / 3600)}:${pad((s % 3600) / 60)}:${pad(s % 60)}`;
+	return `${Math.floor(s / 3600)}:${pad((s % 3600) / 60)}`;
 };
 
-const inWords = (s: number) => {
-	if (s < 60) {
-		return `${s.toFixed(1).replace(".", ",")} sekunder`;
-	} else if (s < 3600) {
-		const m = Math.round(s / 60);
-		return `${m} ${m === 1 ? "minut" : "minuter"}`;
-	}
-	const h = Math.round(s / 360) / 10;
-	return `${String(h).replace(".", ",")} timmar`;
-};
+const unit = (s: number) => (s < 60 ? "sek" : s < 3600 ? "min" : "tim");
 
 const comment = (s: number) => {
-	if (s < 10) return "Hann du ens dricka upp den första?";
-	if (s < 60) return "Under en minut mellan två koppar. Snyggt.";
-	if (s < 3600) return "Det kallar vi fokus.";
-	return "Du tar det lugnt mellan kopparna, och det gillar vi.";
+	if (s < 60) return "Bjöd du en kompis, eller var det en sån dag?";
+	if (s < 3600) return "Påtår innan föreläsningen hann börja.";
+	return "Du tar ett kaffe i taget. Respekt.";
 };
 
 export const FastestRefill = () => {
@@ -46,16 +39,15 @@ export const FastestRefill = () => {
 	const seconds = parseDuration(shortest_delta) ?? 0;
 
 	const ref = useRef(null);
-	const isInView = useInView(ref);
+	const isInView = useInView(ref, { once: true });
 	const value = useMotionValue(0);
 	const text = useTransform(value, readout);
 
 	useEffect(() => {
 		if (!isInView) return;
-		value.set(0);
 		const controls = animate(value, seconds, {
-			delay: 0.6,
-			duration: 1.6,
+			delay: COUNT_DELAY,
+			duration: COUNT_DURATION,
 			ease: [0.1, 0.6, 0.3, 1]
 		});
 		return () => controls.stop();
@@ -64,34 +56,31 @@ export const FastestRefill = () => {
 	return (
 		<Element
 			name="fastest_refill"
-			className="sticky top-0 flex h-screen w-screen flex-col items-center justify-center bg-red-600 px-8"
+			className="bg-baljan-pink sticky top-0 flex h-svh w-screen flex-col items-center justify-center px-6 text-white md:px-8"
 		>
-			<h1 className="font-title text-center text-6xl text-white xl:text-7xl">
-				Din snabbaste påtår
+			<h1 className={`${H1} text-center`}>
+				{seconds < 60
+					? "Ditt snabbaste dubbelblipp"
+					: "Din snabbaste påtår"}
 			</h1>
 
-			<div ref={ref} className="mt-12 flex items-center gap-8">
-				<motion.div
-					initial={{ rotate: 0 }}
-					whileInView={{ rotate: [0, -12, 12, -6, 6, 0] }}
-					transition={{ delay: 2.2, duration: 0.5 }}
-				>
-					<FaStopwatch className="h-36 w-36 fill-white xl:h-48 xl:w-48" />
-				</motion.div>
-				<motion.span className="text-[9rem] font-bold text-white tabular-nums xl:text-[12rem]">
+			<p
+				ref={ref}
+				className="mt-6 flex items-baseline gap-2 md:mt-10 md:gap-4"
+			>
+				<motion.span className={`${HERO} tabular-nums`}>
 					{text}
 				</motion.span>
-			</div>
+				<span className="font-sans text-2xl md:text-4xl">
+					{unit(seconds)}
+				</span>
+			</p>
 
 			<motion.p
-				className="mt-8 max-w-3xl text-center font-sans text-3xl/relaxed text-white"
-				initial={{ opacity: 0 }}
-				whileInView={{ opacity: 1 }}
-				transition={{ delay: 2.6 }}
+				className={`${BODY} mt-6 text-center text-pink-50 md:mt-10`}
+				{...afterAnimation(COUNT_DELAY + COUNT_DURATION)}
 			>
-				Bara <Standout>{inWords(seconds)}</Standout> mellan två blipp.
-				<br />
-				{comment(seconds)}
+				Mellan två av dina blipp. {comment(seconds)}
 			</motion.p>
 		</Element>
 	);

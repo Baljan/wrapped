@@ -19,10 +19,10 @@ export type Slide = {
 	name: string;
 	lock_duration: number;
 	Component: ComponentType;
-	/** Background color the slide ends on, used for the transition strip into the next slide. */
+	/** The slide's background color, used to paint its edge. */
 	color?: string | ((data: WrappedData) => string);
-	/** Render a gradient strip from the previous slide's color before this one. */
-	strip?: boolean;
+	/** Torn receipt-style teeth along the top edge, otherwise the slide meets the previous one in a straight line. */
+	edge?: "zigzag";
 	/** Leave the slide out if there's no data for it. */
 	include?: (data: WrappedData) => boolean;
 };
@@ -39,31 +39,28 @@ const SLIDES: Slide[] = [
 		name: "comparison",
 		lock_duration: 5,
 		Component: Comparison,
-		color: "var(--color-orange-600)",
-		strip: true,
-		include: (d) => !!d.previous
+		color: "var(--color-caramel)",
+		edge: "zigzag",
+		include: (d) => (d.previous?.n_orders ?? 0) > 0
 	},
 	{
 		name: "clock",
 		lock_duration: 6,
 		Component: Clock,
-		color: "var(--color-violet-800)",
-		strip: true,
+		color: "var(--color-baljan-dark-blue)",
 		include: (d) => !!d.time_of_day
 	},
 	{
 		name: "most_purchases",
 		lock_duration: 5,
 		Component: MostPurchases,
-		color: "var(--color-green-600)",
-		strip: true
+		color: "var(--color-green-600)"
 	},
 	{
 		name: "fastest_refill",
 		lock_duration: 4,
 		Component: FastestRefill,
-		color: "var(--color-red-600)",
-		strip: true,
+		color: "var(--color-baljan-pink)",
 		include: (d) => parseDuration(d.shortest_delta) !== null
 	},
 	{
@@ -77,7 +74,6 @@ const SLIDES: Slide[] = [
 		lock_duration: 6,
 		Component: Leaderboard,
 		color: "var(--color-amber-400)",
-		strip: true,
 		include: (d) => !!d.best_placement?.date
 	},
 	{
@@ -93,16 +89,14 @@ const SLIDES: Slide[] = [
 		name: "online_cards",
 		lock_duration: 5,
 		Component: OnlineCards,
-		color: "var(--color-emerald-800)",
-		strip: true,
+		color: "var(--color-latte)",
 		include: (d) => !!d.online_cards
 	},
 	{
 		name: "staff_shifts",
 		lock_duration: 5,
 		Component: StaffShifts,
-		color: "var(--color-sky-600)",
-		strip: true,
+		color: "var(--color-baljan-blue)",
 		include: (d) =>
 			d.is_staff &&
 			!!d.shifts &&

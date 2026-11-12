@@ -1,15 +1,23 @@
 import { useWrappedContext } from "@/app/context";
 import { thisSemester } from "@/app/format";
+import { BODY, H1, afterAnimation } from "@/app/styles";
 import { motion } from "motion/react";
-import { FaSun } from "react-icons/fa6";
 import { Element } from "react-scroll";
 import { Standout } from "./Standout";
 
-// Where on the sky arc each part of the day sits, in degrees (180 = east)
+// Sky drawn in a 220 x 115 box, horizon at y = 95
+const HORIZON = 95;
+const CX = 110;
+const RX = 92;
+const RY = 78;
+const RISE_DELAY = 0.4;
+const RISE_SPACING = 0.5;
+
+// Where on the arc each part of the day sits, in degrees (180 = east)
 const SPANS = [
-	{ key: "morning", label: "Förmiddag", angle: 155 },
+	{ key: "morning", label: "Förmiddag", angle: 152 },
 	{ key: "lunch", label: "Lunch", angle: 90 },
-	{ key: "afternoon", label: "Eftermiddag", angle: 25 }
+	{ key: "afternoon", label: "Eftermiddag", angle: 28 }
 ] as const;
 
 export const StaffShifts = () => {
@@ -23,76 +31,114 @@ export const StaffShifts = () => {
 	const spans = SPANS.filter(
 		(s) => s.key !== "lunch" || shifts.by_span.lunch > 0
 	);
+	const done = RISE_DELAY + spans.length * RISE_SPACING + 0.6;
 
 	return (
 		<Element
 			name="staff_shifts"
-			className="sticky top-0 flex h-screen w-screen flex-col items-center justify-center bg-sky-600 px-8"
+			className="bg-baljan-blue sticky top-0 flex h-svh w-screen flex-col items-center justify-center px-6 text-white md:px-8"
 		>
-			<h1 className="font-title text-center text-6xl text-white xl:text-7xl">
+			<h1 className={`${H1} text-center`}>
 				{shifts.count > 0
-					? `Du jobbade ${shifts.count} pass ${when}. Tack!`
-					: `Du gick ${shifts.on_call} jourpass ${when}. Tack!`}
+					? `${shifts.count} pass bakom disken ${when}`
+					: `${shifts.on_call} jourpass ${when}`}
 			</h1>
 
 			{shifts.count > 0 && (
-				<div className="relative mt-16 aspect-[2.2] w-[min(55vw,95vh)]">
-					<svg
-						viewBox="0 0 220 100"
-						className="absolute inset-0 h-full w-full"
-						aria-hidden
-					>
-						<path
-							d="M 18 96 A 92 84 0 0 1 202 96"
-							fill="none"
-							strokeWidth={0.8}
-							strokeDasharray="2 3"
-							className="stroke-sky-200"
-						/>
-					</svg>
-					{spans.map((s, i) => {
-						const rad = (s.angle * Math.PI) / 180;
-						const left = 50 + 41.8 * Math.cos(rad);
-						const top = 96 - 84 * Math.sin(rad);
-						const n = shifts.by_span[s.key];
+				<svg
+					viewBox="0 0 220 115"
+					className="mt-6 w-[min(85vw,42svh)] overflow-visible md:mt-8 md:w-[min(50vw,65vh)]"
+					role="img"
+					aria-label={spans
+						.map((s) => `${s.label}: ${shifts.by_span[s.key]} pass`)
+						.join(", ")}
+				>
+					<defs>
+						<clipPath id="sky">
+							<rect
+								x={-20}
+								y={-40}
+								width={260}
+								height={HORIZON + 40}
+							/>
+						</clipPath>
+					</defs>
+					<path
+						d={`M ${CX - RX} ${HORIZON} A ${RX} ${RY} 0 0 1 ${CX + RX} ${HORIZON}`}
+						fill="none"
+						strokeWidth={0.8}
+						strokeDasharray="2 3"
+						className="stroke-sky-100/70"
+					/>
+					<line
+						x1={0}
+						y1={HORIZON}
+						x2={220}
+						y2={HORIZON}
+						strokeWidth={1.2}
+						className="stroke-white"
+					/>
+
+					<g clipPath="url(#sky)">
+						{spans.map((s, i) => {
+							const rad = (s.angle * Math.PI) / 180;
+							const x = CX + RX * Math.cos(rad);
+							const y = HORIZON - RY * Math.sin(rad);
+							const n = shifts.by_span[s.key];
+							const r = Math.min(8 + n * 2.5, 22);
+							return (
+								<motion.g
+									key={s.key}
+									initial={{ y: HORIZON - y + r }}
+									whileInView={{ y: 0 }}
+									viewport={{ once: true }}
+									transition={{
+										delay: RISE_DELAY + i * RISE_SPACING,
+										duration: 1,
+										ease: [0.2, 0.7, 0.3, 1]
+									}}
+								>
+									<circle
+										cx={x}
+										cy={y}
+										r={r}
+										className="fill-amber-300"
+									/>
+									<text
+										x={x}
+										y={y}
+										textAnchor="middle"
+										dominantBaseline="central"
+										className="font-title fill-sky-900"
+										style={{ fontSize: Math.max(r, 10) }}
+									>
+										{n}
+									</text>
+								</motion.g>
+							);
+						})}
+					</g>
+
+					{spans.map((s) => {
+						const x = CX + RX * Math.cos((s.angle * Math.PI) / 180);
 						return (
-							<motion.div
+							<text
 								key={s.key}
-								className="absolute flex -translate-x-1/2 -translate-y-1/2 flex-col items-center"
-								style={{ left: `${left}%`, top: `${top}%` }}
-								initial={{ opacity: 0, y: 80 }}
-								whileInView={{ opacity: 1, y: 0 }}
-								transition={{
-									delay: 0.6 + i * 0.6,
-									type: "spring",
-									bounce: 0.3,
-									duration: 0.9
-								}}
+								x={x}
+								y={HORIZON + 11}
+								textAnchor="middle"
+								className="fill-white font-sans text-[9px] md:text-[7px]"
 							>
-								<FaSun
-									className={
-										n > 0
-											? "h-20 w-20 fill-amber-300"
-											: "h-20 w-20 fill-sky-400"
-									}
-								/>
-								<span className="font-title mt-1 text-5xl text-white">
-									{n}
-								</span>
-								<span className="font-sans text-xl text-sky-100">
-									{s.label}
-								</span>
-							</motion.div>
+								{s.label}
+							</text>
 						);
 					})}
-				</div>
+				</svg>
 			)}
 
 			<motion.p
-				className="mt-8 max-w-3xl text-center font-sans text-3xl/relaxed text-white"
-				initial={{ opacity: 0 }}
-				whileInView={{ opacity: 1 }}
-				transition={{ delay: 2.6 }}
+				className={`${BODY} mt-6 text-center md:mt-8`}
+				{...afterAnimation(shifts.count > 0 ? done : 0.6)}
 			>
 				{shifts.exam_period > 0 && (
 					<>
@@ -102,11 +148,11 @@ export const StaffShifts = () => {
 				)}
 				{shifts.count > 0 && shifts.on_call > 0 && (
 					<>
-						Dessutom <Standout>{shifts.on_call} jourpass</Standout>
+						Plus <Standout>{shifts.on_call} jourpass</Standout>
 						.{" "}
 					</>
 				)}
-				Utan dig hade ingen fått något kaffe.
+				Någon måste ju koka kaffet.
 			</motion.p>
 		</Element>
 	);

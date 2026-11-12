@@ -1,11 +1,25 @@
 import { useWrappedContext } from "@/app/context";
+import { BODY, H1, afterAnimation } from "@/app/styles";
 import clsx from "clsx";
 import { motion } from "motion/react";
+import Image from "next/image";
 import { Element } from "react-scroll";
 import { Standout } from "./Standout";
 
-const BUY_URL = "https://www.baljan.org/credits";
-const MAX_CARDS = 10;
+const DROP_DELAY = 0.4;
+const DROP_SPACING = 0.35;
+
+// Hand-placed spots in the pile, so every card stays visible
+const PILE = [
+	{ x: -70, y: 30, r: -11 },
+	{ x: 0, y: 0, r: 3 },
+	{ x: 70, y: -30, r: 12 },
+	{ x: -40, y: -50, r: -5 },
+	{ x: 50, y: 45, r: 8 },
+	{ x: -85, y: -15, r: 15 },
+	{ x: 15, y: -70, r: -9 },
+	{ x: 80, y: 15, r: -14 }
+];
 
 type CardColor = "yellow" | "blue" | "white";
 
@@ -19,15 +33,20 @@ const colorFor = (product: string): CardColor => {
 const CoffeeCard = ({ color }: { color: CardColor }) => (
 	<div
 		className={clsx(
-			"relative flex aspect-[1.586] w-72 flex-col justify-between rounded-2xl p-5 shadow-xl ring-1 ring-black/10",
+			"flex aspect-[1.586] w-72 flex-col justify-between rounded-2xl p-5 shadow-[0_14px_30px_rgba(66,32,6,0.3)]",
 			color === "yellow" && "bg-yellow-300 text-yellow-950",
-			color === "blue" && "bg-blue-500 text-white",
-			color === "white" && "bg-white text-emerald-900"
+			color === "blue" && "bg-baljan-blue text-white",
+			color === "white" && "bg-white text-yellow-950"
 		)}
 	>
-		<span className="font-sans text-lg font-bold">Baljan</span>
+		<Image
+			src="/baljan_logga.png"
+			alt=""
+			width={881}
+			height={881}
+			className="h-12 w-12"
+		/>
 		<span className="font-title text-4xl">Kaffekort</span>
-		<span className="absolute top-5 right-5 h-8 w-11 rounded-md bg-current opacity-20" />
 	</div>
 );
 
@@ -43,114 +62,81 @@ export const OnlineCards = () => {
 		count > 0
 			? Object.entries(by_product)
 					.flatMap(([name, n]) => Array(n).fill(colorFor(name)))
-					.slice(0, MAX_CARDS)
+					.slice(0, PILE.length)
 			: ["yellow"];
+	const done = DROP_DELAY + cards.length * DROP_SPACING + 0.4;
 
 	return (
 		<Element
 			name="online_cards"
-			className="sticky top-0 flex h-screen w-screen items-center justify-center gap-24 bg-emerald-800 px-12"
+			className="bg-latte sticky top-0 flex h-svh w-screen flex-col items-center justify-center gap-6 px-6 text-yellow-950 md:flex-row md:gap-24 md:px-12"
 		>
-			{/* Cards drop in and land in a messy pile */}
-			<div className="relative h-80 w-96 shrink-0">
-				{cards.map((color, i) => (
-					<motion.div
-						key={i}
-						className="absolute top-1/2 left-1/2"
-						initial={{ opacity: 0, y: -500, x: "-50%", rotate: 0 }}
-						whileInView={{
-							opacity: 1,
-							y: `calc(-50% - ${i * 10}px)`,
-							x: `calc(-50% + ${((i * 53) % 60) - 30}px)`,
-							rotate: ((i * 37) % 24) - 12
-						}}
-						transition={{
-							delay: 0.4 + i * (1.4 / cards.length),
-							type: "spring",
-							bounce: 0.3,
-							duration: 0.6
-						}}
-					>
-						<CoffeeCard color={color} />
-					</motion.div>
-				))}
-				{count > MAX_CARDS && (
-					<motion.span
-						className="absolute -top-6 -right-6 z-10 rounded-full bg-white px-4 py-2 font-sans text-2xl font-bold text-emerald-900"
-						initial={{ scale: 0 }}
-						whileInView={{ scale: 1 }}
-						transition={{ delay: 2, type: "spring" }}
-					>
-						+{count - MAX_CARDS}
-					</motion.span>
-				)}
+			{/* Cards drop in, one per card bought, and land in a pile. On phones the
+			    pile keeps its desktop layout, just scaled down to fit. */}
+			<div className="relative h-60 w-72 shrink-0 md:h-96 md:w-[28rem]">
+				<div className="absolute top-1/2 left-1/2 h-96 w-[28rem] -translate-1/2 scale-[0.62] md:scale-100">
+					{cards.map((color, i) => (
+						<motion.div
+							key={i}
+							className="absolute top-1/2 left-1/2"
+							initial={{
+								opacity: 0,
+								x: "-50%",
+								y: -600,
+								rotate: 0
+							}}
+							whileInView={{
+								opacity: 1,
+								x: `calc(-50% + ${PILE[i].x}px)`,
+								y: `calc(-50% + ${PILE[i].y}px)`,
+								rotate: PILE[i].r
+							}}
+							viewport={{ once: true }}
+							transition={{
+								delay: DROP_DELAY + i * DROP_SPACING,
+								type: "spring",
+								bounce: 0.25,
+								duration: 0.6
+							}}
+						>
+							<CoffeeCard color={color} />
+						</motion.div>
+					))}
+					{count > PILE.length && (
+						<span className="font-title absolute -top-4 -right-4 z-10 text-5xl">
+							+{count - PILE.length}
+						</span>
+					)}
+				</div>
 			</div>
 
-			<div className="flex max-w-xl flex-col items-start text-white">
+			<div className="flex flex-col items-center text-center md:items-start md:text-left">
 				{count > 0 ? (
 					<>
-						<motion.h1
-							className="font-title text-6xl xl:text-7xl"
-							initial={{ opacity: 0 }}
-							whileInView={{ opacity: 1 }}
-							transition={{ delay: 1 }}
-						>
-							Du köpte {count === 1 ? "ett" : count} kaffekort
-							online!
-						</motion.h1>
+						<h1 className={H1}>
+							Du köpte {count === 1 ? "ett" : count} kaffekort på
+							nätet
+						</h1>
 						<motion.p
-							className="mt-6 font-sans text-3xl/relaxed text-emerald-50"
-							initial={{ opacity: 0 }}
-							whileInView={{ opacity: 1 }}
-							transition={{ delay: 2.2 }}
+							className={`${BODY} mt-3 md:mt-6`}
+							{...afterAnimation(done)}
 						>
-							Du var tidigt ute, att köpa kaffekort på nätet är
-							helt nytt. Nästa kort finns där när du behöver det.
+							Smidigt, va? Nästa finns på samma ställe:{" "}
+							<Standout>baljan.org</Standout>.
 						</motion.p>
 					</>
 				) : (
 					<>
-						<motion.span
-							className="rounded-full bg-amber-300 px-4 py-1 font-sans text-xl font-bold text-emerald-950"
-							initial={{ opacity: 0, scale: 0.6 }}
-							whileInView={{ opacity: 1, scale: 1 }}
-							transition={{ delay: 0.8, type: "spring" }}
-						>
-							Nyhet
-						</motion.span>
-						<motion.h1
-							className="font-title mt-4 text-6xl xl:text-7xl"
-							initial={{ opacity: 0 }}
-							whileInView={{ opacity: 1 }}
-							transition={{ delay: 1 }}
-						>
-							Nu kan du köpa kaffekort online
-						</motion.h1>
+						<h1 className={H1}>Kaffekort finns på nätet nu</h1>
 						<motion.p
-							className="mt-6 font-sans text-3xl/relaxed text-emerald-50"
-							initial={{ opacity: 0 }}
-							whileInView={{ opacity: 1 }}
-							transition={{ delay: 2 }}
+							className={`${BODY} mt-3 md:mt-6`}
+							{...afterAnimation(done)}
 						>
-							Köp ditt nästa kort på{" "}
-							<Standout>baljan.org</Standout> så hamnar det direkt
-							på ditt konto.
+							Köp på <Standout>baljan.org</Standout>, så hamnar
+							det direkt på ditt konto.
 						</motion.p>
 					</>
 				)}
-				<motion.a
-					href={BUY_URL}
-					target="_blank"
-					rel="noopener"
-					// The page advances on any click, don't let this one count
-					onClick={(e) => e.stopPropagation()}
-					className="mt-10 rounded-full bg-white px-8 py-4 font-sans text-2xl font-bold text-emerald-900 shadow-md transition-shadow hover:shadow-xl focus-visible:ring-4 focus-visible:ring-amber-300 focus-visible:outline-none"
-					initial={{ opacity: 0 }}
-					whileInView={{ opacity: 1 }}
-					transition={{ delay: count > 0 ? 2.8 : 2.6 }}
-				>
-					Köp kaffekort
-				</motion.a>
 			</div>
 		</Element>
 	);

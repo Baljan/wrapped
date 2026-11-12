@@ -18,6 +18,9 @@ export type WrappedContextSchema = WrappedData;
 
 export type SlideState = { name: string; lock_duration: number };
 
+/** How far up a finger has to travel for a swipe to count, in px */
+const SWIPE_DISTANCE = 40;
+
 const WrappedContext = createContext<
 	WrappedContextSchema & {
 		setStep: (step: number) => void;
@@ -67,7 +70,19 @@ export const WrappedProvider = ({
 	data: WrappedData;
 	states: SlideState[];
 }) => {
-	const [step, setStep] = useState<number>(0);
+	const [step, setStep] = useState<number>(() => {
+		// Dev only: ?slide=<name> jumps straight to a slide, handy when
+		// reviewing a single slide without clicking through all of them.
+		if (
+			process.env.NODE_ENV === "production" ||
+			typeof window === "undefined"
+		) {
+			return 0;
+		}
+		const name = new URLSearchParams(window.location.search).get("slide");
+		const i = STATES.findIndex((s) => s.name === name);
+		return Math.max(i, 0);
+	});
 	const ref = useRef<HTMLDivElement>(null);
 	const isMobile = useMobileDetection();
 
@@ -98,36 +113,76 @@ export const WrappedProvider = ({
 	}, [ref, step, STATES]);
 
 	useEffect(() => {
+		const next = () => {
+			if (!disabled && step + 1 < STATES.length) {
+				setStep(step + 1);
+			}
+		};
+
 		function keyboardListener(ev: KeyboardEvent) {
 			ev.preventDefault();
 
-			if (ev.code === "Space" && step + 1 < STATES.length) {
-				if (disabled || isMobile) {
-					return;
-				}
-				setStep(step + 1);
+			if (ev.code === "Space") {
+				next();
 			}
 		}
 
-		function touchScreenListener(ev: PointerEvent) {
+		function clickListener(ev: MouseEvent) {
 			ev.preventDefault();
+			next();
+		}
 
-			if (step + 1 < STATES.length) {
-				if (disabled || isMobile) {
-					return;
-				}
-				setStep(step + 1);
+		// Phones: a tap is a click, a swipe up also moves on. The page itself
+		// never scrolls by touch (body is overflow-hidden), only through
+		// setStep, so the scroll lock above holds for touch as well.
+		let touchStart: { x: number; y: number } | null = null;
+
+		function touchStartListener(ev: TouchEvent) {
+			touchStart =
+				ev.touches.length === 1
+					? { x: ev.touches[0].clientX, y: ev.touches[0].clientY }
+					: null;
+		}
+
+		function touchMoveListener(ev: TouchEvent) {
+			// Stop rubber-banding and any native scroll, but leave pinch zoom be
+			if (ev.touches.length === 1 && ev.cancelable) {
+				ev.preventDefault();
 			}
 		}
 
-		document.addEventListener("click", touchScreenListener);
+		function touchEndListener(ev: TouchEvent) {
+			if (!touchStart || ev.changedTouches.length !== 1) {
+				return;
+			}
+			const dx = ev.changedTouches[0].clientX - touchStart.x;
+			const dy = ev.changedTouches[0].clientY - touchStart.y;
+			touchStart = null;
+			if (dy < -SWIPE_DISTANCE && Math.abs(dy) > Math.abs(dx)) {
+				next();
+			}
+		}
+
+		document.addEventListener("click", clickListener);
 		document.addEventListener("keypress", keyboardListener);
+		document.addEventListener("touchstart", touchStartListener, {
+			passive: true
+		});
+		document.addEventListener("touchmove", touchMoveListener, {
+			passive: false
+		});
+		document.addEventListener("touchend", touchEndListener, {
+			passive: true
+		});
 
 		return () => {
-			document.removeEventListener("click", touchScreenListener);
+			document.removeEventListener("click", clickListener);
 			document.removeEventListener("keypress", keyboardListener);
+			document.removeEventListener("touchstart", touchStartListener);
+			document.removeEventListener("touchmove", touchMoveListener);
+			document.removeEventListener("touchend", touchEndListener);
 		};
-	}, [step, disabled, isMobile, STATES]);
+	}, [step, disabled, STATES]);
 
 	return (
 		<WrappedContext.Provider
@@ -139,8 +194,11 @@ export const WrappedProvider = ({
 			}}
 		>
 			<div
-				className="from-baljan-dark-blue to-baljan-pink relative bg-linear-to-tr via-purple-500 bg-fixed"
+				className="from-baljan-dark-blue to-baljan-pink relative touch-manipulation bg-linear-to-tr via-purple-500 bg-fixed"
 				ref={ref}
+				// iOS Safari only sends clicks on plain elements up to the document
+				// when some ancestor listens for them, so give it one.
+				onClick={() => undefined}
 			>
 				<AnimatePresence>{children}</AnimatePresence>
 				{!isMobile && step < STATES.length - 1 && (

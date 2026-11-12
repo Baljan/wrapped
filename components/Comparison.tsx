@@ -1,161 +1,147 @@
 import { useWrappedContext } from "@/app/context";
-import { semesterName } from "@/app/format";
-import { motion } from "motion/react";
-import { FaMugHot } from "react-icons/fa6";
+import { semesterName, semesterShort } from "@/app/format";
+import { BODY, H1, afterAnimation } from "@/app/styles";
+import { motion, useInView } from "motion/react";
+import { useRef } from "react";
+import Image from "next/image";
 import { Element } from "react-scroll";
-import { Standout } from "./Standout";
 
-const MAX_CUPS_PER_ROW = 20;
+const PRINT_DELAY = 0.6;
+const PRINT_DURATION = 2;
 
-const CupRow = ({
+// Torn-paper edge along the bottom of the receipt
+const TEETH = 18;
+const zigzag = `polygon(0 0, 100% 0, ${Array.from(
+	{ length: TEETH * 2 + 1 },
+	(_, i) =>
+		`${(100 - (i / (TEETH * 2)) * 100).toFixed(2)}% ${i % 2 === 0 ? "100%" : "calc(100% - 10px)"}`
+).join(", ")})`;
+
+const Row = ({
 	label,
-	count,
-	perCup,
-	delay,
-	dim
+	value,
+	strong
 }: {
 	label: string;
-	count: number;
-	perCup: number;
-	delay: number;
-	dim?: boolean;
-}) => {
-	const cups = Math.ceil(count / perCup);
-
-	return (
-		<div className="flex items-center gap-6">
-			<p className="w-56 shrink-0 text-right font-sans text-2xl text-orange-50 first-letter:uppercase">
-				{label}
-			</p>
-			<div className="flex min-h-12 w-[calc(20*2.75rem)] max-w-[60vw] flex-wrap gap-1">
-				{Array.from({ length: cups }, (_, i) => (
-					<motion.span
-						key={i}
-						initial={{ opacity: 0, y: -24, scale: 0.6 }}
-						whileInView={{ opacity: 1, y: 0, scale: 1 }}
-						viewport={{ once: true }}
-						transition={{
-							delay: delay + i * (1.2 / cups),
-							type: "spring",
-							bounce: 0.5,
-							duration: 0.4
-						}}
-					>
-						<FaMugHot
-							className={
-								dim
-									? "h-10 w-10 fill-orange-300"
-									: "h-10 w-10 fill-white"
-							}
-						/>
-					</motion.span>
-				))}
-			</div>
-			<motion.p
-				className="font-title text-5xl text-white"
-				initial={{ opacity: 0 }}
-				whileInView={{ opacity: 1 }}
-				transition={{ delay: delay + 1.3 }}
-			>
-				{count}
-			</motion.p>
-		</div>
-	);
-};
+	value: string;
+	strong?: boolean;
+}) => (
+	<div
+		className={`font-title flex items-baseline gap-2 md:gap-3 ${strong ? "text-2xl md:text-4xl" : "text-xl md:text-3xl"}`}
+	>
+		<span className="first-letter:uppercase">{label}</span>
+		<span className="mb-1.5 flex-1 border-b-2 border-dotted border-current/30 md:mb-2" />
+		<span className="tabular-nums">{value}</span>
+	</div>
+);
 
 export const Comparison = () => {
 	const { n_orders, previous, semester } = useWrappedContext();
+	const till = useRef(null);
+	const printed = useInView(till, { once: true });
 
-	if (!previous) {
+	if (!previous || previous.n_orders === 0) {
 		return null;
 	}
 
 	const prev = previous.n_orders;
 	const prevName = semesterName(previous.semester);
-	const nowName = semesterName(semester);
-	const perCup = Math.max(
-		1,
-		Math.ceil(Math.max(prev, n_orders) / MAX_CUPS_PER_ROW)
-	);
-	const pct =
-		prev > 0 ? Math.round((Math.abs(n_orders - prev) / prev) * 100) : 0;
+	const diff = n_orders - prev;
+	const pct = Math.round((Math.abs(diff) / prev) * 100);
+	const signedPct = `${diff >= 0 ? "+" : "−"}${pct} %`;
 
+	// The receipt carries the numbers, the headline just says what happened
 	let title: string;
-	let subtitle: React.ReactNode;
-	if (prev === 0) {
-		title = `Ny stammis sedan ${prevName}!`;
-		subtitle = (
-			<>
-				Då blev det inte en enda kopp.{" "}
-				{nowName[0].toUpperCase() + nowName.slice(1)} blev det{" "}
-				<Standout>{n_orders}</Standout>.
-			</>
-		);
-	} else if (n_orders > prev) {
-		title = `Du blippade ${pct} % mer än ${prevName}!`;
-		subtitle = (
-			<>
-				Det är <Standout>{n_orders - prev} koppar</Standout> fler. Vi
-				gissar att kursen blev tuffare.
-			</>
-		);
-	} else if (n_orders < prev) {
-		title = `En lugnare termin än ${prevName}`;
-		subtitle = (
-			<>
-				<Standout>{prev - n_orders} koppar</Standout> färre, {pct} %
-				mindre. Sov du mer i år?
-			</>
-		);
+	let text: string;
+	if (diff > 0) {
+		title = `Mer kaffe än ${prevName}`;
+		text = "Kurserna blev inte lättare, va?";
+	} else if (diff < 0) {
+		title = `Lugnare än ${prevName}`;
+		text = "Sov du mer i år?";
 	} else {
-		title = `Exakt lika många koppar som ${prevName}!`;
-		subtitle = "Det kallar vi stabil kaffekonsumtion.";
+		title = `Exakt lika mycket kaffe som ${prevName}`;
+		text = "Du är en vanemänniska.";
 	}
 
 	return (
 		<Element
 			name="comparison"
-			className="sticky top-0 flex h-screen w-screen flex-col items-center justify-center bg-orange-600 px-8"
+			className="bg-caramel sticky top-0 flex h-svh w-screen flex-col items-center justify-center gap-4 px-6 md:flex-row md:gap-24 md:px-12"
 		>
-			<motion.h1
-				className="font-title max-w-5xl text-center text-6xl text-white xl:text-7xl"
-				initial={{ opacity: 0 }}
-				whileInView={{ opacity: 1 }}
-				transition={{ delay: 0.3 }}
-			>
-				{title}
-			</motion.h1>
-
-			<div className="mt-16 flex flex-col gap-6">
-				<CupRow
-					label={prevName}
-					count={prev}
-					perCup={perCup}
-					delay={0.8}
-					dim
-				/>
-				<CupRow
-					label={nowName}
-					count={n_orders}
-					perCup={perCup}
-					delay={2}
-				/>
+			<div className="flex flex-col items-center text-center text-white md:items-start md:text-left">
+				<h1 className={`${H1} max-w-[14ch]`}>{title}</h1>
+				<motion.p
+					className={`${BODY} mt-2 text-orange-50 md:mt-6`}
+					{...afterAnimation(PRINT_DELAY + PRINT_DURATION)}
+				>
+					{text}
+				</motion.p>
 			</div>
 
-			{perCup > 1 && (
-				<p className="mt-4 font-sans text-lg text-orange-100">
-					En kopp = {perCup} blipp
-				</p>
-			)}
-
-			<motion.p
-				className="mt-12 max-w-3xl text-center font-sans text-3xl/relaxed text-white"
-				initial={{ opacity: 0 }}
-				whileInView={{ opacity: 1 }}
-				transition={{ delay: 3.6 }}
+			{/* The receipt is printed out of a till slot */}
+			<div
+				ref={till}
+				className="flex shrink-0 flex-col items-center md:[@media(max-height:700px)]:scale-[0.85]"
 			>
-				{subtitle}
-			</motion.p>
+				<div className="relative z-10 h-4 w-[19rem] rounded-full bg-[#4a2509] shadow-[inset_0_4px_6px_rgba(0,0,0,0.5)] md:h-5 md:w-[32rem]" />
+				<div className="-mt-2 overflow-hidden px-10 pb-14 md:-mt-2.5 md:px-8 md:pb-10">
+					<motion.div
+						// clip-path would cut off a box-shadow, so the shadow is a filter
+						// on this wrapper and the torn edge is clipped on the paper inside
+						className="drop-shadow-[0_18px_22px_rgba(67,20,7,0.35)]"
+						initial={{ y: "-101%" }}
+						animate={printed ? { y: 0 } : undefined}
+						transition={{
+							delay: PRINT_DELAY,
+							duration: PRINT_DURATION,
+							ease: [0.6, 0, 0.4, 1]
+						}}
+					>
+						<div
+							className="w-[16.5rem] bg-white px-5 pt-5 pb-7 text-[#3b1d07] md:w-[28rem] md:px-9 md:pt-8 md:pb-10"
+							style={{ clipPath: zigzag }}
+						>
+							<div className="flex flex-col items-center">
+								<Image
+									src="/baljan_logga.png"
+									alt="Baljan"
+									width={881}
+									height={881}
+									className="h-12 w-12 opacity-80 contrast-150 grayscale md:h-20 md:w-20"
+								/>
+								<p className="font-title mt-1 text-3xl md:mt-2 md:text-5xl">
+									Kvitto
+								</p>
+								<p className="mt-1 font-sans text-sm opacity-60 md:text-xl">
+									{semesterShort(previous.semester)} mot{" "}
+									{semesterShort(semester)}
+								</p>
+							</div>
+
+							<div className="mt-4 flex flex-col gap-2 md:mt-7 md:gap-3">
+								<Row label={prevName} value={`${prev} st`} />
+								<Row
+									label={semesterName(semester)}
+									value={`${n_orders} st`}
+								/>
+							</div>
+
+							<div className="my-3 border-t-2 border-dashed border-current opacity-30 md:my-5" />
+
+							<Row
+								label="Skillnad"
+								value={`${diff >= 0 ? "+" : "−"}${Math.abs(diff)} st`}
+								strong
+							/>
+
+							<p className="font-title mt-3 text-center text-6xl md:mt-6 md:text-8xl">
+								{signedPct}
+							</p>
+						</div>
+					</motion.div>
+				</div>
+			</div>
 		</Element>
 	);
 };

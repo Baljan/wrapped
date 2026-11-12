@@ -158,27 +158,32 @@ export const FavCafe = () => {
 			<div className="h-24 w-full"></div>
 			<Element
 				name="favorite_cafe"
-				className="sticky top-0 h-screen w-screen overflow-hidden"
+				className="sticky top-0 h-svh w-screen overflow-hidden"
 			>
 				<div className="relative h-full w-full scale-115" ref={scope}>
-					<div
-						id="baljan-background"
-						className={clsx(
-							"bg-baljan-pink absolute left-0 z-0 h-screen -skew-x-12",
-							is_baljan ? "z-10" : "z-0"
-						)}
-					></div>
-					<div
-						id="byttan-background"
-						className={clsx(
-							"bg-baljan-blue absolute right-0 z-0 h-screen -skew-x-12",
-							is_baljan ? "z-0" : "z-10"
-						)}
-					></div>
+					{/* On tall, narrow phone screens the skew would leave the corners
+					    bare, so the halves are blown up there. A uniform scale keeps
+					    the angle and the split in the middle. */}
+					<div className="absolute inset-0 max-md:scale-175">
+						<div
+							id="baljan-background"
+							className={clsx(
+								"bg-baljan-pink absolute left-0 z-0 h-full -skew-x-12",
+								is_baljan ? "z-10" : "z-0"
+							)}
+						></div>
+						<div
+							id="byttan-background"
+							className={clsx(
+								"bg-baljan-blue absolute right-0 z-0 h-full -skew-x-12",
+								is_baljan ? "z-0" : "z-10"
+							)}
+						></div>
+					</div>
 
 					<h1
 						id="versus"
-						className="font-title absolute top-1/2 left-1/2 z-20 h-64 w-fit origin-center -translate-1/2 text-center text-6xl/[unset] leading-[unset] text-white opacity-0 xl:text-8xl/[unset]"
+						className="font-title absolute top-1/2 left-1/2 z-20 h-64 w-fit origin-center -translate-1/2 text-center text-6xl/[unset] leading-[unset] text-white opacity-0 max-md:scale-60 xl:text-8xl/[unset]"
 					>
 						VS
 					</h1>
@@ -186,7 +191,7 @@ export const FavCafe = () => {
 						id="baljan-logo"
 						src="/baljan_logga.png"
 						alt="baljan logga"
-						className="absolute top-1/2 left-1/5 z-20 w-[25vh] -translate-y-1/2 opacity-0"
+						className="absolute top-1/2 left-[8%] z-20 w-[26vw] -translate-y-1/2 opacity-0 md:left-1/5 md:w-[25vh]"
 						width={881}
 						height={881}
 					/>
@@ -194,25 +199,25 @@ export const FavCafe = () => {
 						id="byttan-logo"
 						src="/byttan_logga.png"
 						alt="byttan logga"
-						className="absolute top-1/2 right-1/5 z-20 w-[25vh] -translate-y-1/2 opacity-0"
+						className="absolute top-1/2 right-[8%] z-20 w-[26vw] -translate-y-1/2 opacity-0 md:right-1/5 md:w-[25vh]"
 						width={881}
 						height={881}
 					/>
 					<h2
 						id="title"
-						className="font-title absolute top-[20%] left-1/2 z-20 -translate-x-1/2 text-6xl text-white opacity-0"
+						className="font-title absolute top-[20%] left-1/2 z-20 w-max -translate-x-1/2 text-3xl text-white opacity-0 md:w-auto md:text-6xl"
 					>
 						Ditt favoritcafé var:
 					</h2>
 					<h1
 						id="sub-title"
-						className="font-title absolute top-[60%] left-1/2 z-20 -translate-x-1/2 text-8xl text-white opacity-0"
+						className="font-title absolute top-[60%] left-1/2 z-20 -translate-x-1/2 text-6xl text-white opacity-0 md:text-8xl"
 					>
 						{is_baljan ? "Baljan" : "Byttan"}
 					</h1>
 					<p
 						id="info"
-						className="absolute top-[75%] left-1/2 z-20 -translate-x-1/2 text-center text-2xl text-white opacity-0"
+						className="absolute top-[75%] left-1/2 z-20 w-[72%] -translate-x-1/2 text-center text-lg text-white opacity-0 md:w-auto md:text-2xl"
 					>
 						{in_other_cafe == 0 ? (
 							"Du drack alla dina koppar där!"
