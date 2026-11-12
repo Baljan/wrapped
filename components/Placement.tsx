@@ -1,4 +1,5 @@
 import { useWrappedContext } from "@/app/context";
+import { useMobileDetection } from "@/app/hooks";
 import { motion, useInView } from "motion/react";
 import { useRef } from "react";
 import Confetti from "react-confetti-boom";
@@ -12,6 +13,7 @@ export const Placement = () => {
 	const { overall_placement, is_staff } = useWrappedContext();
 	const ref = useRef(null);
 	const isInView = useInView(ref);
+	const isMobile = useMobileDetection();
 
 	const getCongratulationsMessage = () => {
 		if (overall_placement == 0) {
@@ -43,15 +45,19 @@ export const Placement = () => {
 	return (
 		<Element
 			name="placement"
-			className="bg-baljan-dark-blue sticky top-0 flex h-screen w-screen flex-col items-center justify-center"
+			className="bg-baljan-dark-blue sticky top-0 flex h-svh w-screen flex-col items-center justify-center px-6"
 		>
 			<motion.h1
-				className="font-title relative z-0 pt-8 text-center text-6xl text-white xl:text-7xl"
+				className="font-title relative z-0 pt-8 text-center text-4xl text-white md:text-6xl xl:text-7xl"
 				ref={ref}
 			>
 				Du hamnade på plats
 				<br />
-				<Counter gradientFrom="var(--color-baljan-dark-blue)" value={overall_placement + 1} fontSize={160} />
+				<Counter
+					gradientFrom="var(--color-baljan-dark-blue)"
+					value={overall_placement + 1}
+					fontSize={isMobile ? 112 : 160}
+				/>
 				<br />
 				bland alla {is_staff ? "jobbare" : "vanliga användare"}!
 			</motion.h1>
@@ -78,7 +84,7 @@ export const Placement = () => {
 				initial={{ opacity: 0 }}
 				whileInView={{ opacity: 1 }}
 				transition={{ delay: 2 }}
-				className="mt-8 max-w-196 text-center font-sans text-3xl/relaxed text-white"
+				className="mt-4 max-w-196 text-center font-sans text-xl/relaxed text-white md:mt-8 md:text-3xl/relaxed"
 			>
 				{getCongratulationsMessage()}
 			</motion.p>

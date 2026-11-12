@@ -15,12 +15,14 @@
   --color-baljan-blue: rgb(0, 164, 224);
   --color-baljan-pink: rgb(230, 0, 139);
   --color-baljan-dark-blue: rgb(47, 48, 140);
+  --color-caramel: #c8742c;
+  --color-latte: #f3e6cf;
 }
 
 
 body {
   background: var(--background);
   color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+  font-family: var(--font-arial-sans), Arial, Helvetica, sans-serif;
   scroll-behavior: smooth;
 }

@@ -1,35 +1,50 @@
 {
-    "is_staff": true,
-    "overall_placement": 8,
-    "n_orders": 162,
-    "caffeine_mg": 39204,
-    "most_purchases": {
-        "count": 5, 
-        "dates": [
-            "2025-09-23",
-            "2025-08-29",
-            "2025-09-30"
-        ]
-    },
-    "best_placement": {
-        "date": "2025-09-30",
-        "count": 5,
-        "place": 0,
-        "shared": 0,
-        "other_dates": [
-            "2025-08-18",
-            "2025-09-17"
-        ]
-    },
-    "longest_streak": {
-        "start": "2025-08-26",
-        "end": "2025-09-01",
-        "duration": 5
-    },
-    "shortest_delta": "0:00:05.863673",
-    "fav_cafe": {
-        "id": 0,
-        "n_orders": 146
-    },
-    "week_avg": 1.82
+	"is_staff": false,
+	"overall_placement": 8,
+	"n_orders": 162,
+	"caffeine_mg": 39204,
+	"most_purchases": {
+		"count": 5,
+		"dates": ["2026-09-23", "2026-08-29", "2026-09-30"]
+	},
+	"best_placement": {
+		"date": "2026-09-30",
+		"count": 5,
+		"place": 0,
+		"shared": 0,
+		"other_dates": ["2026-08-18", "2026-09-17"]
+	},
+	"longest_streak": {
+		"start": "2026-08-26",
+		"end": "2026-09-01",
+		"duration": 5
+	},
+	"shortest_delta": "P0DT00H00M05.863673S",
+	"fav_cafe": {
+		"id": 0,
+		"n_orders": 146
+	},
+	"week_avg": 1.82,
+	"semester": "HT2026",
+	"online_cards": {
+		"count": 3,
+		"by_product": {
+			"Gult kaffekort": 2,
+			"Blått kaffekort": 1
+		}
+	},
+	"previous": {
+		"semester": "HT2025",
+		"n_orders": 118
+	},
+	"time_of_day": {
+		"hours": [
+			0, 0, 0, 0, 0, 0, 0, 4, 31, 38, 22, 14, 19, 12, 10, 8, 3, 1, 0, 0,
+			0, 0, 0, 0
+		],
+		"weekdays": [41, 35, 30, 32, 24, 0, 0],
+		"fav_hour": 9,
+		"fav_weekday": 0
+	},
+	"shifts": null
 }

@@ -1,3 +1,5 @@
+import { useWrappedContext } from "@/app/context";
+import { semesterShort } from "@/app/format";
 import { useMobileDetection } from "@/app/hooks";
 import { motion } from "framer-motion";
 import { Element } from "react-scroll";
@@ -5,11 +7,18 @@ import { Standout } from "./Standout";
 
 export const Welcome = () => {
 	const isMobile = useMobileDetection();
+	const { semester } = useWrappedContext();
 
 	return (
-		<Element name="welcome" key="welcome">
+		// Same gradient as the page behind it. iOS ignores bg-fixed there, which
+		// would stretch it over every slide, so the first screen paints its own.
+		<Element
+			name="welcome"
+			key="welcome"
+			className="from-baljan-dark-blue to-baljan-pink bg-linear-to-tr via-purple-500"
+		>
 			<motion.div
-				className="relative flex h-screen w-screen flex-col items-center justify-center"
+				className="relative flex h-svh w-screen flex-col items-center justify-center"
 				initial={{ opacity: 0 }}
 				animate={{ opacity: 1 }}
 			>
@@ -18,33 +27,33 @@ export const Welcome = () => {
 						Blippen Wrapped
 					</h1>
 				</div>
-				{!isMobile ? (
-					<>
-						<motion.h2
-							initial={{ opacity: 0 }}
-							animate={{ opacity: 1 }}
-							transition={{ delay: 0.5 }}
-							className="mt-4 px-4 pt-4 text-center text-2xl font-bold text-white text-shadow-lg xl:pt-8 xl:text-3xl"
-						>
-							Dina blipps för HT25 sammanfattade
-						</motion.h2>
-						<motion.p
-							initial={{ opacity: 0 }}
-							animate={{ opacity: 1 }}
-							transition={{ delay: 1.5 }}
-							className="mt-32 font-sans text-2xl text-white"
-						>
+				<motion.h2
+					initial={{ opacity: 0 }}
+					animate={{ opacity: 1 }}
+					transition={{ delay: 0.5 }}
+					className="mt-4 px-4 pt-4 text-center text-xl font-bold text-white text-shadow-lg md:text-2xl xl:pt-8 xl:text-3xl"
+				>
+					Dina blipps för {semesterShort(semester)} sammanfattade
+				</motion.h2>
+				<motion.p
+					initial={{ opacity: 0 }}
+					animate={{ opacity: 1 }}
+					transition={{ delay: 1.5 }}
+					className="mt-20 px-6 text-center font-sans text-xl text-white md:mt-32 md:text-2xl"
+				>
+					{isMobile ? (
+						<>
+							<Standout>Tryck</Standout> på skärmen eller{" "}
+							<Standout>svep uppåt</Standout> för att gå vidare.
+						</>
+					) : (
+						<>
 							Du tar dig vidare genom att klicka på{" "}
 							<Standout>skärmen</Standout> eller{" "}
 							<Standout>mellanslag</Standout>.
-						</motion.p>
-					</>
-				) : (
-					<p className="mt-4 text-center font-sans text-2xl text-white">
-						Den här sidan funkar inte på telefoner, snälla gå in på
-						en dator istället!
-					</p>
-				)}
+						</>
+					)}
+				</motion.p>
 			</motion.div>
 		</Element>
 	);

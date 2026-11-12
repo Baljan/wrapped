@@ -36,12 +36,12 @@ export const AmountOfCoffee = () => {
 			<CoffeePour2
 				name="coffee_pour"
 				key="coffee_pour"
-				className="mx-auto h-fit w-96 max-w-full fill-yellow-950 ps-32"
+				className="mx-auto h-fit w-64 max-w-full fill-yellow-950 ps-20 md:w-96 md:ps-32"
 			/>
 			<Element
 				name="amount_of_coffee"
 				key="amount_of_coffee"
-				className="sticky top-0 flex h-screen w-screen flex-col items-center justify-center bg-yellow-950 px-8"
+				className="sticky top-0 flex h-svh w-screen flex-col items-center justify-center bg-yellow-950 px-6 md:px-8"
 			>
 				<motion.h1
 					className="font-title pt-8 text-center text-5xl text-yellow-100 md:text-9xl"
@@ -52,7 +52,7 @@ export const AmountOfCoffee = () => {
 					Du drack {n_orders} koppar kaffe!
 				</motion.h1>
 				<motion.p
-					className="mt-4 text-center font-sans text-3xl/relaxed text-yellow-100 md:mt-12 md:text-3xl"
+					className="mt-6 text-center font-sans text-xl/relaxed text-yellow-100 md:mt-12 md:text-3xl/relaxed"
 					initial={{ opacity: 0 }}
 					whileInView={{ opacity: 1 }}
 					transition={{ delay: 2 }}
@@ -65,7 +65,7 @@ export const AmountOfCoffee = () => {
 					koffein.
 				</motion.p>
 				<motion.p
-					className="mt-4 text-center font-sans text-3xl/relaxed text-yellow-100 md:text-3xl"
+					className="mt-4 text-center font-sans text-xl/relaxed text-yellow-100 md:text-3xl/relaxed"
 					initial={{ opacity: 0 }}
 					whileInView={{ opacity: 1 }}
 					transition={{ delay: 3 }}

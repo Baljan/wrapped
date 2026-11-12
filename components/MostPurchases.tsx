@@ -2,18 +2,10 @@ import { useWrappedContext } from "@/app/context";
 import { Element } from "react-scroll";
 import { FaCheck } from "react-icons/fa";
 import { motion } from "motion/react";
+import { convertDate } from "@/app/format";
 import { Standout } from "./Standout";
 
-const convertDate = (date_string: string) => {
-	const date = new Date(date_string);
-	const formatter = new Intl.DateTimeFormat("sv-SE", { dateStyle: "long" });
-
-	const a = formatter.formatToParts(date);
-
-	return `${a[0].value} ${a[2].value}`;
-};
-
-const formatMultipleDates = (d: string[]) => {
+export const formatMultipleDates = (d: string[]) => {
 	const dates = d.map(convertDate).map((a) => "den " + a);
 
 	if (dates.length == 1) {
@@ -36,13 +28,12 @@ export const MostPurchases = () => {
 
 	return (
 		<>
-			<div className="h-36 w-screen bg-linear-to-b from-yellow-950 via-lime-800 to-green-600"></div>
 			<Element
 				name="most_purchases"
-				className="sticky top-0 h-screen w-screen bg-green-600"
+				className="sticky top-0 h-svh w-screen bg-green-600"
 			>
 				<motion.div
-					className="flex h-screen w-screen flex-col items-center justify-center"
+					className="flex h-svh w-screen flex-col items-center justify-center px-6"
 					initial={{
 						scale: 0
 					}}
@@ -64,9 +55,9 @@ export const MostPurchases = () => {
 								type: "spring",
 								duration: 0.4
 							}}
-							className="absolute bottom-0 left-20 origin-bottom-left rotate-4 xl:left-40"
+							className="absolute bottom-0 left-12 origin-bottom-left rotate-4 md:left-20 xl:left-40"
 						>
-							<FaCheck className="h-32 w-32 fill-gray-300 xl:h-48 xl:w-48" />
+							<FaCheck className="h-20 w-20 fill-gray-300 md:h-32 md:w-32 xl:h-48 xl:w-48" />
 						</motion.div>
 						<motion.div
 							initial={{
@@ -80,14 +71,14 @@ export const MostPurchases = () => {
 								type: "spring",
 								duration: 0.4
 							}}
-							className="absolute right-20 bottom-0 origin-bottom-right -rotate-4 xl:right-40"
+							className="absolute right-12 bottom-0 origin-bottom-right -rotate-4 md:right-20 xl:right-40"
 						>
-							<FaCheck className="h-32 w-32 fill-gray-300 xl:h-48 xl:w-48" />
+							<FaCheck className="h-20 w-20 fill-gray-300 md:h-32 md:w-32 xl:h-48 xl:w-48" />
 						</motion.div>
-						<FaCheck className="relative h-48 w-48 text-white xl:h-72 xl:w-72" />
+						<FaCheck className="relative h-32 w-32 text-white md:h-48 md:w-48 xl:h-72 xl:w-72" />
 					</div>
 					<motion.h1
-						className="font-title mt-8 text-center text-6xl text-white xl:text-7xl"
+						className="font-title mt-6 text-center text-4xl text-balance text-white md:mt-8 md:text-6xl xl:text-7xl"
 						initial={{ opacity: 0 }}
 						whileInView={{ opacity: 1 }}
 						transition={{ delay: 1 }}
@@ -99,7 +90,7 @@ export const MostPurchases = () => {
 						initial={{ opacity: 0 }}
 						whileInView={{ opacity: 1 }}
 						transition={{ delay: 2 }}
-						className="line mt-4 text-center font-sans text-3xl/relaxed text-white md:mt-12"
+						className="line mt-4 text-center font-sans text-xl/relaxed text-white md:mt-12 md:text-3xl/relaxed"
 					>
 						Då blippade du{" "}
 						<span hidden={most_purchases.count <= 1}>hela</span>{" "}
