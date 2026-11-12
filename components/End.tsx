@@ -10,7 +10,7 @@ export const End = () => {
 	return (
 		<Element
 			name="end"
-			className="sticky top-0 flex h-svh w-screen flex-col items-center justify-center bg-gray-50 px-6"
+			className="sticky top-0 flex h-dvh w-screen flex-col items-center justify-center bg-gray-50 px-6"
 		>
 			<motion.h1 className="font-title text-center text-6xl text-gray-900 text-shadow-xs md:mt-32 md:text-9xl">
 				Stort tack för att du{" "}

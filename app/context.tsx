@@ -112,6 +112,17 @@ export const WrappedProvider = ({
 		}
 	}, [ref, step, STATES]);
 
+	// Slides are h-dvh, so when Safari's toolbar or the window changes size
+	// every slide moves. Snap back to the current one, or the next slide
+	// peeks in at the bottom.
+	useEffect(() => {
+		const resync = () =>
+			scroller.scrollTo(STATES[step].name, { smooth: false, duration: 0 });
+
+		window.addEventListener("resize", resync);
+		return () => window.removeEventListener("resize", resync);
+	}, [step, STATES]);
+
 	useEffect(() => {
 		const next = () => {
 			if (!disabled && step + 1 < STATES.length) {

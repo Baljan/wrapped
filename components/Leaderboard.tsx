@@ -190,7 +190,7 @@ export const Leaderboard = () => {
 		return (
 			<Element
 				name="leaderboard"
-				className="sticky top-0 flex h-svh w-screen flex-col items-center justify-center bg-amber-400 px-6 text-amber-950 md:px-8"
+				className="sticky top-0 flex h-dvh w-screen flex-col items-center justify-center bg-amber-400 px-6 text-amber-950 md:px-8"
 			>
 				<h1 className={`${H1} text-center`}>
 					Din bästa dag på topplistan
@@ -213,7 +213,7 @@ export const Leaderboard = () => {
 	return (
 		<Element
 			name="leaderboard"
-			className="sticky top-0 flex h-svh w-screen flex-col items-center justify-center bg-amber-400 px-6 text-amber-950 md:px-8"
+			className="sticky top-0 flex h-dvh w-screen flex-col items-center justify-center bg-amber-400 px-6 text-amber-950 md:px-8"
 		>
 			<div className="flex items-center gap-4 md:gap-8">
 				<span className={`${HERO} xl:text-[13rem]/none`}>

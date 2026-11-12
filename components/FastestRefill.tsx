@@ -56,7 +56,7 @@ export const FastestRefill = () => {
 	return (
 		<Element
 			name="fastest_refill"
-			className="bg-baljan-pink sticky top-0 flex h-svh w-screen flex-col items-center justify-center px-6 text-white md:px-8"
+			className="bg-baljan-pink sticky top-0 flex h-dvh w-screen flex-col items-center justify-center px-6 text-white md:px-8"
 		>
 			<h1 className={`${H1} text-center`}>
 				{seconds < 60

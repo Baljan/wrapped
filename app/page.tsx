@@ -5,7 +5,7 @@ import { LoadResult, loadWrappedData, loginUrl } from "./data";
 import { Wrapped } from "./wrapped";
 
 const FullscreenMessage = ({ children }: { children?: React.ReactNode }) => (
-	<div className="flex h-svh w-screen flex-col items-center justify-center bg-black">
+	<div className="flex h-dvh w-screen flex-col items-center justify-center bg-black">
 		<h1 className="font-title px-4 pt-8 text-center text-7xl text-white text-shadow-lg md:text-9xl xl:text-[12rem]">
 			Blippen Wrapped
 		</h1>

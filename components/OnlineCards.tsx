@@ -69,7 +69,7 @@ export const OnlineCards = () => {
 	return (
 		<Element
 			name="online_cards"
-			className="bg-latte sticky top-0 flex h-svh w-screen flex-col items-center justify-center gap-6 px-6 text-yellow-950 md:flex-row md:gap-24 md:px-12"
+			className="bg-latte sticky top-0 flex h-dvh w-screen flex-col items-center justify-center gap-6 px-6 text-yellow-950 md:flex-row md:gap-24 md:px-12"
 		>
 			{/* Cards drop in, one per card bought, and land in a pile. On phones the
 			    pile keeps its desktop layout, just scaled down to fit. */}

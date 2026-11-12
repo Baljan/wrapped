@@ -67,7 +67,7 @@ export const Comparison = () => {
 	return (
 		<Element
 			name="comparison"
-			className="bg-caramel sticky top-0 flex h-svh w-screen flex-col items-center justify-center gap-4 px-6 md:flex-row md:gap-24 md:px-12"
+			className="bg-caramel sticky top-0 flex h-dvh w-screen flex-col items-center justify-center gap-4 px-6 md:flex-row md:gap-24 md:px-12"
 		>
 			<div className="flex flex-col items-center text-center text-white md:items-start md:text-left">
 				<h1 className={`${H1} max-w-[14ch]`}>{title}</h1>

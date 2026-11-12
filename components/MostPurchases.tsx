@@ -30,10 +30,10 @@ export const MostPurchases = () => {
 		<>
 			<Element
 				name="most_purchases"
-				className="sticky top-0 h-svh w-screen bg-green-600"
+				className="sticky top-0 h-dvh w-screen bg-green-600"
 			>
 				<motion.div
-					className="flex h-svh w-screen flex-col items-center justify-center px-6"
+					className="flex h-dvh w-screen flex-col items-center justify-center px-6"
 					initial={{
 						scale: 0
 					}}

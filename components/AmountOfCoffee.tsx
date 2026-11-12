@@ -41,7 +41,7 @@ export const AmountOfCoffee = () => {
 			<Element
 				name="amount_of_coffee"
 				key="amount_of_coffee"
-				className="sticky top-0 flex h-svh w-screen flex-col items-center justify-center bg-yellow-950 px-6 md:px-8"
+				className="sticky top-0 flex h-dvh w-screen flex-col items-center justify-center bg-yellow-950 px-6 md:px-8"
 			>
 				<motion.h1
 					className="font-title pt-8 text-center text-5xl text-yellow-100 md:text-9xl"

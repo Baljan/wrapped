@@ -158,7 +158,7 @@ export const FavCafe = () => {
 			<div className="h-24 w-full"></div>
 			<Element
 				name="favorite_cafe"
-				className="sticky top-0 h-svh w-screen overflow-hidden"
+				className="sticky top-0 h-dvh w-screen overflow-hidden"
 			>
 				<div className="relative h-full w-full scale-115" ref={scope}>
 					{/* On tall, narrow phone screens the skew would leave the corners

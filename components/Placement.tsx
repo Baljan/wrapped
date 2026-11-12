@@ -45,7 +45,7 @@ export const Placement = () => {
 	return (
 		<Element
 			name="placement"
-			className="bg-baljan-dark-blue sticky top-0 flex h-svh w-screen flex-col items-center justify-center px-6"
+			className="bg-baljan-dark-blue sticky top-0 flex h-dvh w-screen flex-col items-center justify-center px-6"
 		>
 			<motion.h1
 				className="font-title relative z-0 pt-8 text-center text-4xl text-white md:text-6xl xl:text-7xl"

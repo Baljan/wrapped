@@ -12,7 +12,7 @@ export const Welcome = () => {
 	return (
 		<Element name="welcome" key="welcome">
 			<motion.div
-				className="relative flex h-svh w-screen flex-col items-center justify-center"
+				className="relative flex h-dvh w-screen flex-col items-center justify-center"
 				initial={{ opacity: 0 }}
 				animate={{ opacity: 1 }}
 			>

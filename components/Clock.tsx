@@ -176,7 +176,7 @@ export const Clock = () => {
 	return (
 		<Element
 			name="clock"
-			className="bg-baljan-dark-blue sticky top-0 flex h-svh w-screen flex-col items-center justify-center gap-8 px-6 text-white md:flex-row md:gap-20 md:px-12"
+			className="bg-baljan-dark-blue sticky top-0 flex h-dvh w-screen flex-col items-center justify-center gap-8 px-6 text-white md:flex-row md:gap-20 md:px-12"
 		>
 			<div className="aspect-square w-[min(36svh,72vw)] shrink-0 md:w-[min(62vh,38vw)]">
 				<WallClock hour={fav_hour} />

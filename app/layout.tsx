@@ -32,7 +32,7 @@ export default function RootLayout({
 	return (
 		<html lang="en">
 			<body
-				className={`${lobsterSans.variable} ${arialRoundedSans.variable} ${arialRoundedBold.variable} h-svh max-h-svh w-screen max-w-screen overflow-hidden antialiased`}
+				className={`${lobsterSans.variable} ${arialRoundedSans.variable} ${arialRoundedBold.variable} h-dvh max-h-dvh w-screen max-w-screen overflow-hidden antialiased`}
 			>
 				{children}
 			</body>

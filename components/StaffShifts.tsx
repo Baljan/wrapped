@@ -36,7 +36,7 @@ export const StaffShifts = () => {
 	return (
 		<Element
 			name="staff_shifts"
-			className="bg-baljan-blue sticky top-0 flex h-svh w-screen flex-col items-center justify-center px-6 text-white md:px-8"
+			className="bg-baljan-blue sticky top-0 flex h-dvh w-screen flex-col items-center justify-center px-6 text-white md:px-8"
 		>
 			<h1 className={`${H1} text-center`}>
 				{shifts.count > 0
