@@ -194,12 +194,18 @@ export const WrappedProvider = ({
 			}}
 		>
 			<div
-				className="from-baljan-dark-blue to-baljan-pink relative touch-manipulation bg-linear-to-tr via-purple-500 bg-fixed"
+				className="relative touch-manipulation"
 				ref={ref}
 				// iOS Safari only sends clicks on plain elements up to the document
 				// when some ancestor listens for them, so give it one.
 				onClick={() => undefined}
 			>
+				{/* Page background. A fixed layer instead of bg-fixed, which iOS
+				    ignores and would stretch the gradient over every slide. */}
+				<div
+					aria-hidden
+					className="from-baljan-dark-blue to-baljan-pink fixed inset-0 -z-10 bg-linear-to-tr via-purple-500"
+				/>
 				<AnimatePresence>{children}</AnimatePresence>
 				{!isMobile && step < STATES.length - 1 && (
 					<div
