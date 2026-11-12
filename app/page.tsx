@@ -3,17 +3,17 @@
 import { useEffect, useState } from "react";
 import { LoadResult, loadWrappedData, loginUrl } from "./data";
 import { Wrapped } from "./wrapped";
+import { WelcomeScreen } from "@/components/Welcome";
+import { WELCOME_BACKGROUND } from "./styles";
 
-const FullscreenMessage = ({ children }: { children?: React.ReactNode }) => (
+const FullscreenMessage = ({ children }: { children: React.ReactNode }) => (
 	<div className="flex h-dvh w-screen flex-col items-center justify-center bg-black">
 		<h1 className="font-title px-4 pt-8 text-center text-7xl text-white text-shadow-lg md:text-9xl xl:text-[12rem]">
 			Blippen Wrapped
 		</h1>
-		{children && (
-			<p className="mt-8 max-w-[85%] text-center font-sans text-xl text-white md:mt-16 md:max-w-6/12 md:text-3xl">
-				{children}
-			</p>
-		)}
+		<p className="mt-8 max-w-[85%] text-center font-sans text-xl text-white md:mt-16 md:max-w-6/12 md:text-3xl">
+			{children}
+		</p>
 	</div>
 );
 
@@ -30,8 +30,14 @@ const Home = () => {
 		});
 	}, []);
 
+	// Same look as the welcome slide, so the static HTML already shows it and
+	// nothing jumps when the data arrives
 	if (result === null) {
-		return <FullscreenMessage />;
+		return (
+			<div className={WELCOME_BACKGROUND}>
+				<WelcomeScreen />
+			</div>
+		);
 	}
 
 	if (result.status === "no-data") {

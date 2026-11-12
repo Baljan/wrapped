@@ -4,6 +4,7 @@ import { FaCheck } from "react-icons/fa";
 import { motion } from "motion/react";
 import { convertDate } from "@/app/format";
 import { Standout } from "./Standout";
+import { CSSProperties } from "react";
 
 export const formatMultipleDates = (d: string[]) => {
 	const dates = d.map(convertDate).map((a) => "den " + a);
@@ -23,8 +24,17 @@ export const formatMultipleDates = (d: string[]) => {
 	}
 };
 
+/** More ticks than this stop fitting on a phone, the count says the rest */
+const MAX_TICKS = 12;
+const TICK_STAGGER = 0.12;
+
+/** Ticks per row, so the rows come out even: 5, 3+3, 4+3, 4+4+4 */
+const tickColumns = (n: number) =>
+	n <= 5 ? n : n <= 10 ? Math.ceil(n / 2) : 4;
+
 export const MostPurchases = () => {
 	const { most_purchases } = useWrappedContext();
+	const ticks = Math.min(most_purchases.count, MAX_TICKS);
 
 	return (
 		<>
@@ -32,53 +42,32 @@ export const MostPurchases = () => {
 				name="most_purchases"
 				className="sticky top-0 h-dvh w-screen bg-green-600"
 			>
-				<motion.div
-					className="flex h-dvh w-screen flex-col items-center justify-center px-6"
-					initial={{
-						scale: 0
-					}}
-					whileInView={{
-						scale: 1
-					}}
-					transition={{ delay: 0.5 }}
-				>
-					<div className="relative">
-						<motion.div
-							initial={{
-								scale: 0
-							}}
-							whileInView={{
-								scale: 1
-							}}
-							transition={{
-								delay: 0.6,
-								type: "spring",
-								duration: 0.4
-							}}
-							className="absolute bottom-0 left-12 origin-bottom-left rotate-4 md:left-20 xl:left-40"
-						>
-							<FaCheck className="h-20 w-20 fill-gray-300 md:h-32 md:w-32 xl:h-48 xl:w-48" />
-						</motion.div>
-						<motion.div
-							initial={{
-								scale: 0
-							}}
-							whileInView={{
-								scale: 1
-							}}
-							transition={{
-								delay: 0.7,
-								type: "spring",
-								duration: 0.4
-							}}
-							className="absolute right-12 bottom-0 origin-bottom-right -rotate-4 md:right-20 xl:right-40"
-						>
-							<FaCheck className="h-20 w-20 fill-gray-300 md:h-32 md:w-32 xl:h-48 xl:w-48" />
-						</motion.div>
-						<FaCheck className="relative h-32 w-32 text-white md:h-48 md:w-48 xl:h-72 xl:w-72" />
+				<div className="flex h-dvh w-screen flex-col items-center justify-center px-6">
+					{/* One tick per blipp that day, stamped in one at a time */}
+					<div
+						className="flex max-w-[calc(var(--cols)*3.5rem+(var(--cols)-1)*0.75rem)] flex-wrap justify-center gap-3 md:max-w-[calc(var(--cols)*5rem+(var(--cols)-1)*1rem)] md:gap-4"
+						style={
+							{ "--cols": tickColumns(ticks) } as CSSProperties
+						}
+					>
+						{Array.from({ length: ticks }, (_, i) => (
+							<motion.div
+								key={i}
+								className="flex h-14 w-14 items-center justify-center rounded-full bg-white shadow-lg shadow-green-900/25 md:h-20 md:w-20"
+								initial={{ scale: 0, rotate: -20 }}
+								whileInView={{ scale: 1, rotate: 0 }}
+								transition={{
+									delay: 0.4 + i * TICK_STAGGER,
+									type: "spring",
+									duration: 0.4
+								}}
+							>
+								<FaCheck className="h-7 w-7 fill-green-600 md:h-10 md:w-10" />
+							</motion.div>
+						))}
 					</div>
 					<motion.h1
-						className="font-title mt-6 text-center text-4xl text-balance text-white md:mt-8 md:text-6xl xl:text-7xl"
+						className="font-title mt-8 text-center text-4xl text-balance text-white md:mt-8 md:text-6xl xl:text-7xl"
 						initial={{ opacity: 0 }}
 						whileInView={{ opacity: 1 }}
 						transition={{ delay: 1 }}
@@ -105,7 +94,7 @@ export const MostPurchases = () => {
 						{most_purchases.dates.length > 1 &&
 							`Du nådde samma höjder ${formatMultipleDates(most_purchases.dates.slice(1))}.`}
 					</motion.p>
-				</motion.div>
+				</div>
 			</Element>
 		</>
 	);

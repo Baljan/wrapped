@@ -21,3 +21,7 @@ export const afterAnimation = (delay: number) => ({
 	whileInView: { opacity: 1 },
 	transition: { delay, duration: 0.2 }
 });
+
+/** Gradient behind the welcome screen, also painted while the data loads */
+export const WELCOME_BACKGROUND =
+	"from-baljan-dark-blue to-baljan-pink bg-linear-to-tr via-purple-500";

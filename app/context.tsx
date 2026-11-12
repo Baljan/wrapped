@@ -12,7 +12,7 @@ import {
 import { FaArrowDownLong } from "react-icons/fa6";
 import { scroller } from "react-scroll";
 import { WrappedData } from "./types";
-import { useMobileDetection } from "./hooks";
+import { WELCOME_BACKGROUND } from "./styles";
 
 export type WrappedContextSchema = WrappedData;
 
@@ -32,6 +32,9 @@ const resolveColor = (color: string) => {
 				.trim()
 		: color;
 };
+
+/** The welcome slide is a gradient, tint the bars with its top edge */
+const WELCOME_TINT = "var(--color-purple-500)";
 
 /** How far up a finger has to travel for a swipe to count, in px */
 const SWIPE_DISTANCE = 40;
@@ -99,7 +102,6 @@ export const WrappedProvider = ({
 		return Math.max(i, 0);
 	});
 	const ref = useRef<HTMLDivElement>(null);
-	const isMobile = useMobileDetection();
 
 	const [disabled, setDisabled] = useState(false);
 
@@ -127,29 +129,23 @@ export const WrappedProvider = ({
 		}
 	}, [ref, step, STATES]);
 
-	// Tint Safari's status bar and toolbar after the slide on screen. Without
-	// a theme-color Safari guesses from fixed and sticky elements, and the
-	// sticky slides stay stuck at the top, so it kept the first one's brown.
-	// The page background follows too, for browsers that sample that instead.
+	// The color of the slide on screen, for the browser's own bars
+	const tint = STATES[step].color ?? WELCOME_TINT;
+
+	// Older Safari and Chrome on Android follow theme-color. Safari 26+ ignores
+	// it in a normal tab and picks the color of a fixed element along the
+	// screen edge instead, see the background layer below.
 	useEffect(() => {
-		const color = STATES[step].color;
 		let meta = document.querySelector<HTMLMetaElement>(
 			'meta[name="theme-color"]'
 		);
-		if (!color) {
-			meta?.remove();
-			document.documentElement.style.backgroundColor = "";
-			return;
-		}
 		if (!meta) {
 			meta = document.createElement("meta");
 			meta.name = "theme-color";
 			document.head.appendChild(meta);
 		}
-		const resolved = resolveColor(color);
-		meta.content = resolved;
-		document.documentElement.style.backgroundColor = resolved;
-	}, [step, STATES]);
+		meta.content = resolveColor(tint);
+	}, [tint]);
 
 	// Slides are h-dvh, so when Safari's toolbar or the window changes size
 	// every slide moves. Snap back to the current one, or the next slide
@@ -254,19 +250,28 @@ export const WrappedProvider = ({
 				onClick={() => undefined}
 			>
 				{/* Page background. A fixed layer instead of bg-fixed, which iOS
-				    ignores and would stretch the gradient over every slide. */}
+				    ignores and would stretch the gradient over every slide.
+				    Safari 26+ tints its status bar and toolbar after the
+				    background-color of a fixed element along the screen edge,
+				    otherwise it took the first sticky slide's brown for good.
+				    The gradient image paints over the color, so it never shows. */}
 				<div
 					aria-hidden
-					className="from-baljan-dark-blue to-baljan-pink fixed inset-0 -z-10 bg-linear-to-tr via-purple-500"
+					className={`${WELCOME_BACKGROUND} fixed inset-0 -z-10`}
+					style={{ backgroundColor: tint }}
 				/>
 				<AnimatePresence>{children}</AnimatePresence>
-				{!isMobile && step < STATES.length - 1 && (
+				{/* Bouncing arrow once the slide is done and the next one can be
+				    reached. The dark disc keeps it visible on the light slides. */}
+				{step < STATES.length - 1 && (
 					<div
-						id="keyboard-hint"
+						id="next-hint"
 						aria-hidden={disabled}
-						className="fixed bottom-8 left-1/2 z-40 -translate-x-1/2 fill-white text-4xl font-bold text-white opacity-80 transition-opacity duration-300 aria-hidden:opacity-0 2xl:bottom-16"
+						className="pointer-events-none fixed inset-x-0 bottom-[calc(1.5rem+env(safe-area-inset-bottom))] z-40 flex justify-center transition-opacity duration-500 aria-hidden:opacity-0 aria-hidden:duration-150 md:bottom-10"
 					>
-						<FaArrowDownLong />
+						<div className="flex h-10 w-10 animate-bounce items-center justify-center rounded-full bg-black/25 text-lg text-white backdrop-blur-sm md:h-12 md:w-12 md:text-xl">
+							<FaArrowDownLong />
+						</div>
 					</div>
 				)}
 			</div>
